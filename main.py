@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect
-import The_smart_part
 
 app = Flask(__name__)
 
