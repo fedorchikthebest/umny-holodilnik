@@ -5,7 +5,6 @@ app = Flask(__name__)
 # Список для хранения товаров (можно позже заменить на базу данных)
 products = []
 
-
 @app.route('/')
 def index():
     return render_template('index.html', products=products)
@@ -30,6 +29,7 @@ def add_product():
 @app.route('/korzina')
 def korzina():
     return render_template('korzina.html', products=products)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
