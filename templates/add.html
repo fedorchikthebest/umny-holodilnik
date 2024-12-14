@@ -11,10 +11,15 @@
     <script src=”https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js”
         integrity=”sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q”
         crossorigin=”anonymous”></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="./js/script.js"></script>
     <link rel="stylesheet" href="./css/style.css">
     <title>Добавление продуктов</title>
 
 </head>
+
+
 
 <body>
     <header class="p-3 text-bg-dark">
@@ -42,23 +47,15 @@
                                 <form>
                                     <div class="container">
                                         <h1 class="h3 mb-3 my-4 fw-normal">Добавление продуктов</h1>
-
                                         <input type="text" class="form-control my-4" id="exampleFormControlInput1"
                                             placeholder="Название продукта">
                                         <input type="text" class="form-control my-4" id="exampleFormControlInput1"
                                             placeholder="Класс">
-                                        <div class="row">
-                                            <div class="btn-group" style="margin: 0; padding: 0;">
-                                                <input type="radio" class="btn-check" name="btnradio" id="btnradio1"
-                                                    autocomplete="off" checked>
-                                                <label class="btn btn-outline-primary" for="btnradio1">ШТ</label>
-
-                                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2"
-                                                    autocomplete="off">
-                                                <label class="btn btn-outline-primary" for="btnradio2">Вес</label>
-                                            </div>
-                                        </div>
-
+                                        <select class="form-select my-4" aria-label="Default select example">
+                                            <option selected>Выберите категорию</option>
+                                            <option value="1">Штуки</option>
+                                            <option value="2">Вес</option>
+                                        </select>
                                         <div class="row">
                                             <div class="col-md overflow-auto">
                                                 <div class="form-floating my-4">
@@ -98,10 +95,6 @@
                                         <button class="btn btn-primary my-4 w-100 py-2" type="submit">Добавить</button>
                                     </div>
                     </div>
-
-
-
-
                     </form>
                     </main>
                     </blockquote>
