@@ -30,6 +30,5 @@ def add_product():
 def korzina():
     return render_template('korzina.html', products=products)
 
-
 if __name__ == '__main__':
     app.run(debug=True)
