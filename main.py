@@ -5,6 +5,7 @@ app = Flask(__name__)
 # Список для хранения товаров (можно позже заменить на базу данных)
 products = []
 
+
 @app.route('/')
 def index():
     return render_template('index.html', products=products)
