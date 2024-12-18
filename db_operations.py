@@ -19,7 +19,7 @@ def get_products() -> str:
             "count": i[3],
             "is_kg": i[4],
             "class": class_name})
-    return json.dumps(result)
+    return result
 
 
 def add_product(name:str, class_name:str, stop_date:str, count:int, if_kg:bool):
