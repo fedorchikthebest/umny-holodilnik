@@ -9,7 +9,7 @@ products = []
 def index():
     return render_template('index.html', products=products)
 
-@app.route('/add', methods=['GET', 'POST'])
+@app.route("/add", methods=['GET', 'POST'])
 def add_product():
     if request.method == 'POST':
         name = request.form['name']
