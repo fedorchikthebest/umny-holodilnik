@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
+import db_operations
 
 app = Flask(__name__)
 
@@ -29,6 +30,10 @@ def add_product():
 @app.route('/korzina')
 def korzina():
     return render_template('korzina.html', products=products)
+
+@app.route('/api')
+def api():
+    return jsonify(db_operations.get_products())
 
 if __name__ == '__main__':
     app.run(debug=True)

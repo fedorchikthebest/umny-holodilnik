@@ -9,114 +9,98 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
     <title>Document</title>
-    <style>
-  table, td, th {
-    border: 1px solid;
-    border-collapse: collapse;
-  }
-  td , th {
-    padding: 5px;
-    width: 100px;
-  }
-  th {
-    background-color: lightgreen;
-  }
+<body>
+<style>
+    table, td, th {
+      border: 1px solid;
+      border-collapse: collapse;
+    }
+    td , th {
+      padding: 5px;
+      width: 100px;
+    }
+    th {
+      background-color: lightgreen;
+    }
 
-    </style>
+</style>
 
 
-    <nav class="p-3 text-bg-dark">
-        <div class="container">
-            <div class="flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <center>
-                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        <li><a href="/" class="nav-link px-2 text-white">Главная</a></li>
-                        <li><a href="/add" class="nav-link px-2 text-white">Добавление товара</a></li>
-                        <li><a href="/korzina" class="nav-link px-2 text-white">Все продукты</a></li>
-                        <li><a href="#" class="nav-link px-2 text-white">About</a></li>
-                    </ul>
-                </center>
-            </div>
+<nav class="p-3 text-bg-dark">
+    <div class="container">
+        <div class="flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <center>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/" class="nav-link px-2 text-white">Главная</a></li>
+                    <li><a href="/add" class="nav-link px-2 text-white">Добавление товара</a></li>
+                    <li><a href="/korzina" class="nav-link px-2 text-white">Все продукты</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+                </ul>
+            </center>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <section>
-        <div class="row my-4">
-            <div class="col-1"></div>
-            <div class="col-10">
-                    <p id="demo"></p>
+<section>
+    <div class="row my-4">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <table class="table table-bordered border-primary">
 
-                    <script>0
-var nameArrow = "", yearArrow = "";
-var cars = [
-  {type:"Volvo", year:2016},
-  {type:"Saab", year:2001},
-  {type:"BMW", year:2010}
-];
-yearACS = true;
-function sortYear() {
-  if (yearACS) {
-    nameArrow = "";
-    yearArrow = "🔽";
-    cars.sort(function(a,b) {
-      return a.year - b.year;
-    });
-    yearACS = false;
-  }else {
-    nameArrow = "";
-    yearArrow = "🔼";
-    cars.sort(function(a,b) {
-      return b.year - a.year;
-    });
-    yearACS = true;
-  }
-  displayCars();
-}
-nameACS = true;
-function sortName() {
-  if (nameACS) {
-    nameArrow = "🔽";
-    yearArrow = "";
-    cars.sort(function(a,b) {
-      x = a.type.toLowerCase();
-      y = b.type.toLowerCase();
-      if (x > y) {return 1;}
-      if (x < y) {return -1};
-      return 0;
-    });
-    nameACS = false;
-  } else {
-    nameArrow = "🔼";
-    yearArrow = "";
-    cars.sort(function(a,b) {
-      x = a.type.toUpperCase();
-      y = b.type.toUpperCase();
-      if (x > y) { return -1};
-      if (x <y) { return 1 };
-      return 0;
-    });
-    nameACS = true;
-  }
-  displayCars();
-}
+                <thead>
 
-displayCars();
+                </thead>
+                <tbody>
+                <tr class="table-active">
 
-function displayCars() {
-  var txt = "<table><tr><th onclick='sortName()'>name " + nameArrow + "</th><th onclick='sortYear()'>year " + yearArrow + "</th><tr>";
-  for (let i = 0; i < cars.length; i++) {
-    txt += "<tr><td>"+ cars[i].type + "</td><td>" + cars[i].year + "</td></tr>";
-  }
-  txt += "</table>";
-  document.getElementById("demo").innerHTML = txt;
-}
+                </tr>
+                <tr>
+
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td colspan="2" class="table-active">Larry the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+                </tbody>
+            </table>
 
 
-                    </script>
+            <script type="module">
+                const table = document.createElement('table');
+                document.body.append(table);
+                let res = await fetch("/api");
+                let res_t = await res.json();
+                let otvet = res_t[0];
+                for (const value of res_t) {
+                  document.createElement('tr') = value.product_name;
+                  document.getElementById("dema").innerHTML = value.stop_date;
+                  document.getElementById("deme").innerHTML = value.count;
+                  document.getElementById("demr").innerHTML = value.is_kg;
+                }
+                // создаем таблицу и добавляем ее на страницу
 
-            </div>
-            <div class="col-1"></div>
+                // создаем три строки и добавляем их в таблицу
+                for (let i = 0; i < 3; i++) {
+                  const row = document.createElement('tr');
+                  table.append(row);
+
+                  // для каждой строки создаем три ячейки и добавляем их в строку
+                  for (let j = 0; j < 3; j++) {
+                    const cell = document.createElement('td');
+                    row.append(cell);
+
+                    // добавляем текст в ячейку
+                    const text = document.createTextNode(`(${i}, ${j})`);
+                    cell.append(text);
+                  }
+                }
+            </script>
+
+
         </div>
-    </section>
-    </body>
+        <div class="col-1"></div>
+    </div>
+</section>
+</body>
 </html>
