@@ -8,7 +8,7 @@ cur.execute("CREATE TABLE IF NOT EXISTS classes(id INTEGER PRIMARY KEY AUTOINCRE
 cur.execute("CREATE TABLE IF NOT EXISTS products(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, stop_date DATE, count INTEGER, is_kg BOOLEAN, class_id INTEGER, FOREIGN KEY (class_id)  REFERENCES classes (id))")
 
 
-def get_products() -> str:
+def get_products() -> dict:
     products = cur.execute("SELECT * FROM products")
     result = []
     for i in products.fetchall():
