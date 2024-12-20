@@ -50,96 +50,86 @@
     </section>
     <script type="module">
         // Получаем данные из API
-let res = await fetch("/api");
-let res_t = await res.json();
+        let res = await fetch("/api");
+        let res_t = await res.json();
 
-// Находим таблицу в HTML
-const table = document.querySelector('table.table-bordered');
+        // Находим таблицу в HTML
+        const table = document.querySelector('table.table-bordered');
 
-// Очищаем таблицу перед добавлением новых данных
-table.innerHTML = '';
+        // Очищаем таблицу перед добавлением новых данных
+        table.innerHTML = '';
 
-// Создаем заголовок таблицы
-const thead = document.createElement('thead');
-const headerRow = document.createElement('tr');
-const headers = ['Product Name', 'Stop Date', 'Count', 'Is KG'];
-let currentSortColumn = null;
+        // Создаем заголовок таблицы
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        const headers = Object.keys(res_t[0]); // Используем ключи первого объекта как заголовки
+        let currentSortColumn = null;
 
-headers.forEach((headerText, index) => {
-    const th = document.createElement('th');
-    th.textContent = headerText;
-    th.style.cursor = 'pointer';
-    th.style.position = 'relative';
-    th.addEventListener('click', () => sortTable(index, th));
-    headerRow.appendChild(th);
-});
-thead.appendChild(headerRow);
-table.appendChild(thead);
+        headers.forEach((headerText, index) => {
+            const th = document.createElement('th');
+            th.textContent = headerText;
+            th.style.cursor = 'pointer';
+            th.style.position = 'relative';
+            th.addEventListener('click', () => sortTable(index, th));
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
 
-// Создаем тело таблицы и заполняем его данными
-const tbody = document.createElement('tbody');
-res_t.forEach(value => {
-    const row = document.createElement('tr');
+        // Создаем тело таблицы и заполняем его данными
+        const tbody = document.createElement('tbody');
+        res_t.forEach(value => {
+            const row = document.createElement('tr');
 
-    const cell1 = document.createElement('td');
-    cell1.textContent = value.product_name;
-    row.appendChild(cell1);
+            headers.forEach(header => {
+                const cell = document.createElement('td');
+                cell.textContent = value[header];
+                row.appendChild(cell);
+            });
 
-    const cell2 = document.createElement('td');
-    cell2.textContent = value.stop_date;
-    row.appendChild(cell2);
+            tbody.appendChild(row);
+        });
+        table.appendChild(tbody);
 
-    const cell3 = document.createElement('td');
-    cell3.textContent = value.count;
-    row.appendChild(cell3);
+        // Функция для сортировки таблицы
+        let sortDirection = true; // true для возрастания, false для убывания
+        function sortTable(columnIndex, th) {
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            rows.sort((a, b) => {
+                const cellA = a.children[columnIndex].textContent;
+                const cellB = b.children[columnIndex].textContent;
 
-    const cell4 = document.createElement('td');
-    cell4.textContent = value.is_kg;
-    row.appendChild(cell4);
+                if (!isNaN(cellA) && !isNaN(cellB)) {
+                    return sortDirection ? cellA - cellB : cellB - cellA;
+                } else {
+                    return sortDirection ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+                }
+            });
 
-    tbody.appendChild(row);
-});
-table.appendChild(tbody);
+            // Переключаем направление сортировки
+            sortDirection = !sortDirection;
 
-// Функция для сортировки таблицы
-let sortDirection = true; // true для возрастания, false для убывания
-function sortTable(columnIndex, th) {
-    const rows = Array.from(tbody.querySelectorAll('tr'));
-    rows.sort((a, b) => {
-        const cellA = a.children[columnIndex].textContent;
-        const cellB = b.children[columnIndex].textContent;
+            // Очищаем тело таблицы и добавляем отсортированные строки
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
 
-        if (!isNaN(cellA) && !isNaN(cellB)) {
-            return sortDirection ? cellA - cellB : cellB - cellA;
-        } else {
-            return sortDirection ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+            // Обновляем индикатор сортировки
+            updateSortIndicator(th);
         }
-    });
 
-    // Переключаем направление сортировки
-    sortDirection = !sortDirection;
+        function updateSortIndicator(th) {
+            // Удаляем предыдущие индикаторы
+            if (currentSortColumn) {
+                currentSortColumn.textContent = currentSortColumn.textContent.replace(' ↑', '').replace(' ↓', '');
+            }
 
-    // Очищаем тело таблицы и добавляем отсортированные строки
-    tbody.innerHTML = '';
-    rows.forEach(row => tbody.appendChild(row));
+            // Добавляем новый индикатор
+            th.textContent = th.textContent.replace(' ↑', '').replace(' ↓', '');
+            th.textContent += sortDirection ? ' ↑' : ' ↓';
 
-    // Обновляем индикатор сортировки
-    updateSortIndicator(th);
-}
-
-function updateSortIndicator(th) {
-    // Удаляем предыдущие индикаторы
-    if (currentSortColumn) {
-        currentSortColumn.textContent = currentSortColumn.textContent.replace(' ↑', '').replace(' ↓', '');
-    }
-
-    // Добавляем новый индикатор
-    th.textContent = th.textContent.replace(' ↑', '').replace(' ↓', '');
-    th.textContent += sortDirection ? ' ↑' : ' ↓';
-
-    // Обновляем текущий столбец сортировки
-    currentSortColumn = th;
-}
+            // Обновляем текущий столбец сортировки
+            currentSortColumn = th;
+        }
     </script>
 </body>
 

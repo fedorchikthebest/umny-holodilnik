@@ -5,7 +5,7 @@ con = sqlite3.connect("holodilnik.db")
 cur = con.cursor()
 
 cur.execute("CREATE TABLE IF NOT EXISTS classes(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)")
-cur.execute("CREATE TABLE IF NOT EXISTS products(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, stop_date DATE, count INTEGER, is_kg BOOLEAN, class_id INTEGER, FOREIGN KEY (class_id)  REFERENCES classes (id))")
+cur.execute("CREATE TABLE IF NOT EXISTS products(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, stop_date DATE, count INTEGER, mass_id INTEGER, class_id INTEGER, start_date TEXT, B INTEGER, J INTEGER, U INTEGER, FOREIGN KEY (class_id)  REFERENCES classes (id))")
 con.commit()
 con.close()
 
@@ -23,19 +23,23 @@ def get_products() -> dict:
             "stop_date": i[2],
             "count": i[3],
             "is_kg": i[4],
-            "class": class_name})
+            "class": class_name,
+            "start_date": i[6],
+            "B": i[7],
+            "J": i[8],
+            "U": i[9]})
     con.close()
     return result
 
 
-def add_product(name:str, class_name:str, stop_date:str, count:int, if_kg:bool):
+def add_product(name:str, class_name:str, stop_date:str, count:int, mass_id:int, start_date:str, B:int, J:int, U:int):
     con = sqlite3.connect("holodilnik.db")
     cur = con.cursor()
 
     if len(cur.execute("SELECT id FROM classes WHERE name = ?", (class_name,)).fetchall()) == 0:
         cur.execute("INSERT INTO classes(name) VALUES (?)", (class_name, ))
     class_id = cur.execute("SELECT id FROM classes WHERE name=?", (class_name, )).fetchall()[0][0]
-    cur.execute("INSERT INTO products(name, stop_date, count, is_kg, class_id) VALUES (?, ?, ?, ?, ?)", (name, stop_date, count, if_kg, class_id))
+    cur.execute("INSERT INTO products(name, stop_date, count, mass_id, class_id, start_date, B, J, U) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (name, stop_date, count, mass_id, class_id, start_date, B, J, U))
     con.commit()
     con.close()
     return cur.lastrowid
@@ -48,14 +52,3 @@ def delete_product(id: int):
     cur.execute("DELET FROM products WHERE id=?", (id,))
     con.commit()
     con.close()
-
-
-print(add_product('chiken', 'chiken', '2024-02-01', 1, True))
-print(add_product('chiken', 'chiken', '2026-02-03', 1, True))
-print(add_product('chiken', 'chiken', '2024-04-01', 1, True))
-print(add_product('chiken', 'chiken', '2042-02-05', 1, True))
-print(add_product('chiken', 'chiken', '2024-02-01', 1, True))
-print(add_product('chiken', 'chiken', '2024-03-06', 1, True))
-print(add_product('chiken', 'chiken', '2054-02-01', 1, True))
-print(add_product('chiken', 'chiken', '2024-02-03', 1, True))
-print(add_product('chiken', 'chiken', '2064-06-01', 1, True))
