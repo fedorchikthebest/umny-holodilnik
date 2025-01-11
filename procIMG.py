@@ -1,5 +1,7 @@
 import qrcode
 from io import BytesIO
+from PIL import Image
+
 
 def generate_qr_code(id: int) -> bytes:
     data = str(id)
@@ -22,3 +24,16 @@ def generate_qr_code(id: int) -> bytes:
 
     return buffer.getvalue()
 
+
+def bytes_to_image(byte_sequence, output_file):
+    print(byte_sequence)
+    try:
+
+        image_stream = BytesIO(byte_sequence)
+
+        image = Image.open(image_stream)
+
+        image.save(output_file)
+        print(f"{output_file}")
+    except Exception as e:
+        print(f"{e}")
