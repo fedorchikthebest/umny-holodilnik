@@ -1,9 +1,10 @@
 import qrcode
+from base64 import b64encode
 from io import BytesIO
 from PIL import Image
 
 
-def generate_qr_code(id: int) -> bytes:
+def generate_qr_code(id: int) -> str:
     data = str(id)
 
     qr = qrcode.QRCode(
@@ -22,7 +23,7 @@ def generate_qr_code(id: int) -> bytes:
     img.save(buffer, format="PNG")
     buffer.seek(0)
 
-    return buffer.getvalue()
+    return b64encode(buffer.getvalue()).decode("utf-8")
 
 
 def bytes_to_image(byte_sequence, output_file):
@@ -37,3 +38,5 @@ def bytes_to_image(byte_sequence, output_file):
         print(f"{output_file}")
     except Exception as e:
         print(f"{e}")
+
+print(generate_qr_code(1488))
