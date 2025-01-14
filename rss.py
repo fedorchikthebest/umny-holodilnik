@@ -4,7 +4,7 @@ import datetime
 
 RSS_START = '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<channel>\n<title>Информация о продуктаз</title>\n<link>https://www.FreeBSD.org/press/</link>\n<description>Тут будет размещаться информация о состоянии товаров в холодильнике</description>\nn'
 RSS_END = "</channel></rss>"
-RSS_SHAB = "<item><title>Срок годности истек</title><pubDate>%s</pubDate>\n<description>Товар %s испортился</description></item>"
+RSS_SHAB = "<item><title>Срок годности истек</title>\n<pubDate>%s</pubDate>\n<description>%s</description></item>"
 
 
 def gen_rss() -> str:
@@ -15,6 +15,9 @@ def gen_rss() -> str:
         stop_date = datetime.date(s[0], s[1], s[2])
         if datetime.date.today() > stop_date:
             rss_ans += RSS_SHAB % (f"{stop_date.strftime('%a, %d %b %Y')} 00:00:00", f"Срок годности {i['product_name']} истёк")
+        elif datetime.date.today() - stop_date <= datetime.timedelta(days=3):
+            rss_ans += RSS_SHAB % (f"{stop_date.strftime('%a, %d %b %Y')} 00:00:00", f"Срок годности {i['product_name']} скоро истечёт")
+
 
     rss_ans += RSS_END
     return rss_ans
