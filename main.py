@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response
 import db_operations
+from rss import gen_rss
 
 app = Flask(__name__)
 
@@ -24,6 +25,8 @@ def add_product():
 
         db_operations.add_product(name, class_name, stop_date, count, mass_id,
                                   start_date, B, J, U)
+        print(request.form['stopDate'], request.form['startDate'])
+
         return redirect(url_for('index'))
 
     return render_template('add.html')
@@ -33,6 +36,13 @@ def add_product():
 def korzina():
     return render_template('korzina.html',
                            products=db_operations.get_products())
+
+
+@app.route("/rss")
+def rss():
+    r = make_response(gen_rss())
+    r.headers.set('Content-Type', 'application/rss+xml')
+    return r
 
 
 @app.route('/api')
