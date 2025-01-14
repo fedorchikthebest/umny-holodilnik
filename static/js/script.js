@@ -40,6 +40,21 @@ res_t.forEach(value => {
 });
 table.appendChild(tbody);
 
+// Получаем поле ввода для поиска
+const searchInput = document.getElementById('searchInput');
+
+// Добавляем обработчик события для поиска
+searchInput.addEventListener('input', () => {
+    const filter = searchInput.value.toLowerCase();
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+    rows.forEach(row => {
+        const cells = Array.from(row.querySelectorAll('td'));
+        const rowText = cells.map(cell => cell.textContent.toLowerCase()).join(' ');
+        row.style.display = rowText.includes(filter) ? '' : 'none';
+    });
+});
+
 // Функция для сортировки таблицы
 let sortDirection = true; // true для возрастания, false для убывания
 function sortTable(columnIndex, th) {
@@ -79,3 +94,51 @@ function updateSortIndicator(th) {
     // Обновляем текущий столбец сортировки
     currentSortColumn = th;
 }
+
+// Функция для обновления заголовков таблицы
+function updateTableHeaders() {
+    const headers = [
+        "Название продуктов",
+        "Белки",
+        "Жиры",
+        "Углеводы",
+        "is_kg",
+        "хз че это",
+        "Класс",
+        "Дата изготовления",
+        "Дата истечения"
+    ];
+
+    const headerRow = table.querySelector('thead tr');
+    headerRow.innerHTML = ''; // Очищаем текущие заголовки
+
+    headers.forEach((headerText, index) => {
+        const th = document.createElement('th');
+        th.textContent = headerText;
+        th.style.cursor = 'pointer'; // Устанавливаем курсор для указания на возможность сортировки
+        th.addEventListener('click', () => sortTable(index, th)); // Добавляем обработчик события сортировки
+        headerRow.appendChild(th);
+    });
+}
+
+// Вызов функции обновления заголовков после загрузки данных
+updateTableHeaders();
+
+// Функция для фильтрации строк по сроку годности
+function filterExpiringItems() {
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const today = new Date();
+    const thresholdDate = new Date();
+    thresholdDate.setDate(today.getDate() + 7); // Устанавливаем порог на 7 дней
+
+    rows.forEach(row => {
+        const expiryDateCell = row.children[5]; // Предполагается, что дата истечения в 6-м столбце
+        if (expiryDateCell) {
+            const expiryDate = new Date(expiryDateCell.textContent);
+            row.style.display = expiryDate <= thresholdDate ? '' : 'none'; // Показываем только близкие к истечению
+        }
+    });
+}
+
+// Добавляем обработчик события для кнопки фильтрации
+document.getElementById('filterExpiry').addEventListener('click', filterExpiringItems);
