@@ -1,42 +1,38 @@
+import io
 import qrcode
-from base64 import b64encode
-from io import BytesIO
+import cv2
+import numpy as np
 from PIL import Image
 
 
-def generate_qr_code(id: int) -> str:
-    data = str(id)
-
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=10,
-        border=4,
-    )
-
+def create_qr_code(data):
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
     qr.add_data(data)
     qr.make(fit=True)
 
     img = qr.make_image(fill_color="black", back_color="white")
 
-    buffer = BytesIO()
-    img.save(buffer, format="PNG")
-    buffer.seek(0)
+    byte_stream = io.BytesIO()
+    img.save(byte_stream, format="PNG")
+    byte_stream.seek(0)
+    return byte_stream.getvalue()
 
-    return b64encode(buffer.getvalue()).decode("utf-8")
 
-
-def bytes_to_image(byte_sequence, output_file):
-    print(byte_sequence)
+def decode_qr_code(byte_sequence):
     try:
-
-        image_stream = BytesIO(byte_sequence)
-
-        image = Image.open(image_stream)
-
-        image.save(output_file)
-        print(f"{output_file}")
+        byte_stream = io.BytesIO(byte_sequence)
+        img = Image.open(byte_stream).convert("RGB")
+        img_np = np.array(img)
+        qr_detector = cv2.QRCodeDetector()
+        data, bbox, _ = qr_detector.detectAndDecode(img_np)
+        if data:
+            return data
+        else:
+            print("QR code not detected or empty.")
+            return None
     except Exception as e:
-        print(f"{e}")
+        print(f"Error decoding QR code: {e}")
+        return None
 
-print(generate_qr_code(1488))
+
+
