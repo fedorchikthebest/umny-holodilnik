@@ -4,6 +4,7 @@ let res_t = await res.json();
 
 // Находим таблицу в HTML
 const table = document.querySelector('table.table-bordered');
+var is_filtered = false;
 
 // Очищаем таблицу перед добавлением новых данных
 table.innerHTML = '';
@@ -127,18 +128,29 @@ updateTableHeaders();
 // Функция для фильтрации строк по сроку годности
 function filterExpiringItems() {
     const rows = Array.from(tbody.querySelectorAll('tr'));
+		if (is_filtered){
+				rows.forEach(row => {
+            row.style.display = ''; // Показываем только близкие к истечению
+						}
+				);
+				is_filtered = false
+				return 0;
+		}
+
     const today = new Date();
     const thresholdDate = new Date();
-    thresholdDate.setDate(today.getDate() + 7); // Устанавливаем порог на 7 дней
+    thresholdDate.setDate(today.getDate() - 3); // Устанавливаем порог на 7 дней
 
     rows.forEach(row => {
-        const expiryDateCell = row.children[5]; // Предполагается, что дата истечения в 6-м столбце
+        const expiryDateCell = row.children[7].textContent.split('-'); // Предполагается, что дата истечения в 6-м столбце
+			let CellDate = new Date(expiryDateCell[0], expiryDateCell[1], expiryDateCell[2]);
         if (expiryDateCell) {
-            const expiryDate = new Date(expiryDateCell.textContent);
-            row.style.display = expiryDate <= thresholdDate ? '' : 'none'; // Показываем только близкие к истечению
+            row.style.display = CellDate <= thresholdDate ? '' : 'none'; // Показываем только близкие к истечению
         }
     });
+		is_filtered = true
 }
-
+const searchButton = document.getElementById('1488')
+searchButton.addEventListener('click', filterExpiringItems)
 // Добавляем обработчик события для кнопки фильтрации
 document.getElementById('filterExpiry').addEventListener('click', filterExpiringItems);
