@@ -129,6 +129,7 @@ updateTableHeaders();
 function filterExpiringItems() {
     const rows = Array.from(tbody.querySelectorAll('tr'));
 		if (is_filtered){
+		    document.getElementById('ZOV').textContent = "Показать просрочку"
 				rows.forEach(row => {
             row.style.display = ''; // Показываем только близкие к истечению
 						}
@@ -136,13 +137,14 @@ function filterExpiringItems() {
 				is_filtered = false
 				return 0;
 		}
+	document.getElementById('ZOV').textContent = "Показать всё"
 
     const today = new Date();
     const thresholdDate = new Date();
-    thresholdDate.setDate(today.getDate()); // Устанавливаем порог на 7 дней
+    thresholdDate.setDate(today.getDate() - 3); // Устанавливаем порог на 7 дней
 
     rows.forEach(row => {
-        const expiryDateCell = row.children[7].textContent.split('-'); // Предполагается, что дата истечения в 6-м столбце
+        const expiryDateCell = row.children[8].textContent.split('-'); // Предполагается, что дата истечения в 6-м столбце
 			let CellDate = new Date(expiryDateCell[0], expiryDateCell[1] - 1, expiryDateCell[2]);
         if (expiryDateCell) {
             row.style.display = CellDate <= thresholdDate ? '' : 'none'; // Показываем только близкие к истечению
@@ -150,7 +152,6 @@ function filterExpiringItems() {
     });
 		is_filtered = true
 }
-const searchButton = document.getElementById('1488')
+const searchButton = document.getElementById('ZOV')
 searchButton.addEventListener('click', filterExpiringItems)
 // Добавляем обработчик события для кнопки фильтрации
-document.getElementById('filterExpiry').addEventListener('click', filterExpiringItems);
