@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response
+from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response, flash
 import db_operations
 from rss import gen_rss
 
@@ -48,6 +48,19 @@ def rss():
 @app.route('/api')
 def api():
     return jsonify(db_operations.get_products())
+
+
+@app.route('/delite', methods=['GET', 'POST'])
+def delite():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            print(1)
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            print(0)
+            return redirect(request.url)
+    return render_template('delite.html')
 
 
 if __name__ == '__main__':
