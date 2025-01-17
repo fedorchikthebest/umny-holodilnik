@@ -52,3 +52,22 @@ def delete_product(id: int):
     cur.execute("DELET FROM products WHERE id=?", (id,))
     con.commit()
     con.close()
+
+
+def get_product(id: int):
+    con = sqlite3.connect("holodilnik.db")
+    cur = con.cursor()
+
+    products = cur.execute("SELECT * FROM products WHERE id == ?", (id,)).fetchone()
+    class_name = cur.execute("SELECT name FROM classes WHERE id == ?", (products[5],)).fetchone()[0]
+    con.close()
+    return {
+        "product_name": products[1],
+        "stop_date": products[2],
+        "count": products[3],
+        "is_kg": products[4],
+        "class": class_name,
+        "start_date": products[6],
+        "B": products[7],
+        "J": products[8],
+        "U": products[9]}
