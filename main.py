@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response, flash
 import db_operations
 from rss import gen_rss
+import os
+from werkzeug.utils import secure_filename
+import f
 
 app = Flask(__name__)
 
@@ -53,15 +56,17 @@ def api():
 @app.route('/delite', methods=['GET', 'POST'])
 def delite():
     if request.method == 'POST':
-        if 'file' not in request.files:
-            print(1)
-            return redirect(request.url)
-        file = request.files['file']
-        if file.filename == '':
-            print(0)
-            return redirect(request.url)
+        UPLOAD_FOLDER = "static"
+        app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+        if request.method == "POST":
+            file = request.files["image"]
+
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
     return render_template('delite.html')
 
 
 if __name__ == '__main__':
+    f.f()
     app.run(debug=True)
