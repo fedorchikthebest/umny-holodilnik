@@ -68,5 +68,4 @@ def delite():
 
 
 if __name__ == '__main__':
-    f.f()
     app.run(debug=True)
