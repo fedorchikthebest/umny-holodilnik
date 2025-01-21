@@ -1,6 +1,7 @@
 // Получаем данные из API
 let res = await fetch("/api");
 let res_t = await res.json();
+const data_types = ['Шт', 'Кг', 'Л']
 
 // Находим таблицу в HTML
 const table = document.querySelector('table.table-bordered');
@@ -30,10 +31,12 @@ table.appendChild(thead);
 const tbody = document.createElement('tbody');
 res_t.forEach(value => {
     const row = document.createElement('tr');
+	value['is_kg'] = data_types[value['is_kg']]
+
 
     headers.forEach(header => {
         const cell = document.createElement('td');
-        cell.textContent = value[header];
+		cell.textContent = value[header];
         row.appendChild(cell);
     });
 
@@ -99,13 +102,13 @@ function updateSortIndicator(th) {
 // Функция для обновления заголовков таблицы
 function updateTableHeaders() {
     const headers = [
-        "Класс",
         "Белки",
         "Жиры",
         "Углеводы",
+        "Класс",
         "Количество",
         "Тип данных",
-        "Название продуктов",
+        "Название продукта",
         "Дата изготовления",
         "Дата истечения"
     ];
