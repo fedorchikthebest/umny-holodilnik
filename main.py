@@ -3,7 +3,6 @@ import db_operations
 from rss import gen_rss
 import os
 from werkzeug.utils import secure_filename
-import f
 
 app = Flask(__name__)
 
