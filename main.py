@@ -18,7 +18,7 @@ def add_product():
         name = request.form['productName']
         class_name = request.form['productClass']
         stop_date = request.form['stopDate']
-        count = 1
+        count = int(request.form.get('mass', 0))
         mass_id = 0
         start_date = request.form['startDate']
         B = int(request.form.get('proteinsG', 0))
