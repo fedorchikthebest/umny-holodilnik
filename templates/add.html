@@ -20,37 +20,17 @@
 
 </head>
 
-
-<<<<<<< HEAD
-    <body>
-    <nav class="p-3 text-bg-dark" >
-        <div class="container">
-            <div class="flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <center>
-                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        <li><a href="/" class="nav-link px-2 text-white">Главная</a></li>
-                        <li><a href="/add" class="nav-link px-2 text-white">Добавление
-                                товара</a></li>
-                        <li><a href="/korzina" class="nav-link px-2 text-white">Все
-                                продукты</a></li>
-                        <li><a href="/delite" class="nav-link px-2 text-white">Удаление товара</a>
-                        </li>
-                    </ul>
-                </center>
-=======
-<body>
 <nav class="p-3 text-bg-dark">
     <div class="container">
         <div class="flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <center>
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="/"
-                           class="nav-link px-2 text-white">Главная</a></li>
+                    <li><a href="/" class="nav-link px-2 text-white">Главная</a></li>
                     <li><a href="/add" class="nav-link px-2 text-white">Добавление
-                        товара</a></li>
+                            товара</a></li>
                     <li><a href="/korzina" class="nav-link px-2 text-white">Все
-                        продукты</a></li>
-                    <li><a href="/infabout" class="nav-link px-2 text-white">Информация О товаре</a>
+                            продукты</a></li>
+                    <li><a href="/infabout" class="nav-link px-2 text-white">Информация о товаре</a>
                     </li>
                 </ul>
             </center>
@@ -64,147 +44,60 @@
             <div class="card my-4">
                 <div class="card-body">
                     <main class="form-signin w-100 m-auto">
-                        <form method="POST" action="/add" name="myForm" action="demo_form.asp" onsubmit="return validateForm()">
+                        <form method="POST" action="/add" name="myForm" onsubmit="return validateForm()">
                             <div class="container">
                                 <h1 class="h3 mb-3 my-4 fw-normal">Добавление
                                     продуктов</h1>
-                                <input type="text" class="form-control my-4"
-                                       id="productName" name="productName"
-                                       placeholder="Название продукта">
-                                <input type="text" class="form-control my-4"
-                                       id="productClass" name="productClass"
-                                       placeholder="Класс">
-                               <div class="row">
+                                <input type="text" class="form-control my-4" id="productName" name="productName"
+                                    placeholder="Название продукта" required>
+                                <input type="text" class="form-control my-4" id="productClass" name="productClass"
+                                    placeholder="Класс" required>
+                                <div class="row">
                                     <div class="col-md overflow-auto">
                                         <div class="form-floating my-4">
                                             <p>Дата изготовления</p>
-                                            <input type="date"
-                                                   class="form-control my-4"
-                                                   id="startDate"
-                                                   name="startDate"
-                                                   placeholder="Дата изготовления">
+                                            <input type="date" class="form-control my-4" id="startDate" name="startDate"
+                                                placeholder="Дата изготовления" required>
                                         </div>
                                     </div>
                                     <div class="col-md overflow-auto">
                                         <div class="form-floating my-4">
                                             <p>Дата истечения</p>
-                                            <input type="date"
-                                                   class="form-control my-4"
-                                                   id="stopDate"
-                                                   name="stopDate"
-                                                   placeholder="Дата истечения">
+                                            <input type="date" class="form-control my-4" id="stopDate" name="stopDate"
+                                                placeholder="Дата истечения" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md overflow-auto"><input
-                                            type="number" min="0"
-                                            class="form-control my-4"
-                                            id="mass" name="mass"
-                                            placeholder="Масса кг"></div>
+                                    <div class="col-md overflow-auto"><input type="number" min="0"
+                                            class="form-control my-4" id="mass" name="mass" placeholder="Штуки"
+                                            required></div>
                                     <div class="col-md overflow-auto">
-                                <select id='Xen' class="form-select my-4"
-                                        aria-label="Default select example"
-                                        name="productCategory">
-                                    <option value="0">Штуки</option>
-                                    <option value="1">Вес</option>
-									<option value="2">Объём</option>
-                                </select>
+                                        <select id='Xen' class="form-select my-4" aria-label="Default select example"
+                                            name="productCategory" required>
+                                            <option value="0">Штуки</option>
+                                            <option value="1">Вес</option>
+                                            <option value="2">Объём</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md overflow-auto"><input type="number" min="0"
+                                                class="form-control my-4" id="proteinsG" name="proteinsG"
+                                                placeholder="Белки г" required></div>
+                                        <div class="col-md overflow-auto"><input type="number" min="0"
+                                                class="form-control my-4" id="fatsG" name="fatsG" placeholder="Жиры г"
+                                                required></div>
+                                        <div class="col-md overflow-auto"><input type="number" min="0"
+                                                class="form-control my-4" id="carbsG" name="carbsG"
+                                                placeholder="Углеводы г" required></div>
+                                    </div>
+                                    <button class="btn btn-primary my-4 w-100 py-2" type="submit">Добавить
+                                    </button>
                                 </div>
- 
-                                <div class="row">
-                                    <div class="col-md overflow-auto"><input
-                                            type="number" min="0"
-                                            class="form-control my-4"
-                                            id="proteinsG" name="proteinsG"
-                                            placeholder="Белки г"></div>
-                                    <div class="col-md overflow-auto"><input
-                                            type="number" min="0"
-                                            class="form-control my-4"
-                                            id="fatsG" name="fatsG"
-                                            placeholder="Жиры г"></div>
-                                    <div class="col-md overflow-auto"><input
-                                            type="number" min="0"
-                                            class="form-control my-4"
-                                            id="carbsG" name="carbsG"
-                                            placeholder="Углеводы г"></div>
-                                </div>
-                                <button class="btn btn-primary my-4 w-100 py-2"
-                                        type="submit">Добавить
-                                </button>
-                            </div>
                         </form>
                     </main>
                 </div>
->>>>>>> 64e2335720d4cd306f62a9873635f1914ae6b45b
-            </div>
-        </div>
-    </nav>
-    <center>
-        <div class="row" style="margin: 1% 15% 1%;">
-            <div class="col-1"></div>
-            <div class="col-10">
-                <div class="card my-4">
-                    <div class="card-body">
-                        <main class="form-signin w-100 m-auto">
-                            <form method="POST" action="/add" name="myForm" onsubmit="return validateForm()">
-                                <div class="container">
-                                    <h1 class="h3 mb-3 my-4 fw-normal">Добавление
-                                        продуктов</h1>
-                                    <input type="text" class="form-control my-4" id="productName" name="productName"
-                                        placeholder="Название продукта" required>
-                                    <input type="text" class="form-control my-4" id="productClass" name="productClass"
-                                        placeholder="Класс" required>
-                                    <div class="row">
-                                        <div class="col-md overflow-auto">
-                                            <div class="form-floating my-4">
-                                                <p>Дата изготовления</p>
-                                                <input type="date" class="form-control my-4" id="startDate"
-                                                    name="startDate" placeholder="Дата изготовления" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md overflow-auto">
-                                            <div class="form-floating my-4">
-                                                <p>Дата истечения</p>
-                                                <input type="date" class="form-control my-4" id="stopDate"
-                                                    name="stopDate" placeholder="Дата истечения" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md overflow-auto"><input type="number" min="0"
-                                                class="form-control my-4" id="mass" name="mass" placeholder="Штуки"
-                                                required></div>
-                                        <div class="col-md overflow-auto">
-                                            <select id='Xen' class="form-select my-4"
-                                                aria-label="Default select example" name="productCategory" required>
-                                                <option value="0">Штуки</option>
-                                                <option value="1">Вес кг</option>
-                                                <option value="2">Объём л</option>
-                                            </select>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md overflow-auto"><input type="number" min="0"
-                                                    class="form-control my-4" id="proteinsG" name="proteinsG"
-                                                    placeholder="Белки г" required></div>
-                                            <div class="col-md overflow-auto"><input type="number" min="0"
-                                                    class="form-control my-4" id="fatsG" name="fatsG"
-                                                    placeholder="Жиры г" required></div>
-                                            <div class="col-md overflow-auto"><input type="number" min="0"
-                                                    class="form-control my-4" id="carbsG" name="carbsG"
-                                                    placeholder="Углеводы г" required></div>
-                                        </div>
-                                        <button class="btn btn-primary my-4 w-100 py-2" type="submit">Добавить
-                                        </button>
-                                    </div>
-                            </form>
-                        </main>
-                    </div>
-                </div>
-            </div>
-            <div class="col-1"></div>
-        </div>
-    </center>
-</body>
+
 
 </html>
