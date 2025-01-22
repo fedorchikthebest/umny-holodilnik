@@ -3,6 +3,10 @@ import db_operations
 from rss import gen_rss
 import os
 from werkzeug.utils import secure_filename
+import proc_img
+
+
+
 
 app = Flask(__name__)
 
@@ -52,18 +56,24 @@ def api():
     return jsonify(db_operations.get_products())
 
 
-@app.route('/delite', methods=['GET', 'POST'])
-def delite():
+@app.route('/infabout', methods=['GET', 'POST'])
+def infabout():
     if request.method == 'POST':
-        UPLOAD_FOLDER = "static"
+        UPLOAD_FOLDER = "imageQR"
         app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-        if request.method == "POST":
-            file = request.files["image"]
+        file = request.files["image"]
 
-            filename = secure_filename(file.filename)
-            file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-    return render_template('delite.html')
+        filename = secure_filename(file.filename)
+
+        file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+
+        file.save(file_path)
+        print(file_path)
+        id = proc_img.decode_qr_from_image(file_path)
+        db_operations.get_product(id)
+        print(db_operations)
+    return render_template('infabout.html')
 
 
 if __name__ == '__main__':
