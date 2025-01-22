@@ -57,3 +57,5 @@ def decode_qr_from_base64(base64_string):
 
     except Exception as e:
         return f"Ошибка обработки: {str(e)}"
+
+

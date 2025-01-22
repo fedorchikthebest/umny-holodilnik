@@ -58,22 +58,29 @@ def api():
 
 @app.route('/infabout', methods=['GET', 'POST'])
 def infabout():
+
     if request.method == 'POST':
-        UPLOAD_FOLDER = "imageQR"
-        app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+        try:
+            UPLOAD_FOLDER = "imageQR"
+            app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-        file = request.files["image"]
+            file = request.files["image"]
 
-        filename = secure_filename(file.filename)
+            filename = secure_filename(file.filename)
 
-        file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
 
-        file.save(file_path)
-        print(file_path)
-        id = proc_img.decode_qr_from_image(file_path)
-        db_operations.get_product(id)
-        print(db_operations)
+            file.save(file_path)
+            print(file_path)
+            id = proc_img.decode_qr_from_image(file_path)
+            d = db_operations.get_product(id)
+            return render_template('infabout.html', d=d)
+        except Exception:
+            return render_template('infabout.html', erorr)
+
     return render_template('infabout.html')
+
+
 
 @app.route('/api/delete/<int:id>')
 def api_de(id):
