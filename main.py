@@ -76,7 +76,7 @@ def infabout():
             d = db_operations.get_product(id)
             return render_template('infabout.html', d=d)
         except Exception:
-            return render_template('infabout.html', erorr)
+            return render_template('infabout.html', d='Ошибка')
 
     return render_template('infabout.html')
 
