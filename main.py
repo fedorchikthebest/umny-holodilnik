@@ -75,6 +75,12 @@ def infabout():
         print(db_operations)
     return render_template('infabout.html')
 
+@app.route('/api/delete/<int:id>')
+def api_de(id):
+    db_operations.delete_product(id)
+    return 'ok'
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

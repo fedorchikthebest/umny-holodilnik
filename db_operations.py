@@ -19,6 +19,7 @@ def get_products() -> dict:
     for i in products.fetchall():
         class_name = cur.execute("SELECT name FROM classes WHERE id == ?", (i[5],)).fetchone()[0]
         result.append({
+            "id": i[0],
             "product_name": i[1],
             "stop_date": i[2],
             "count": i[3],
@@ -49,7 +50,7 @@ def delete_product(id: int):
     con = sqlite3.connect("holodilnik.db")
     cur = con.cursor()
 
-    cur.execute("DELET FROM products WHERE id=?", (id,))
+    cur.execute("DELETE FROM products WHERE id=?", (id,))
     con.commit()
     con.close()
 
@@ -62,6 +63,7 @@ def get_product(id: int):
     class_name = cur.execute("SELECT name FROM classes WHERE id == ?", (products[5],)).fetchone()[0]
     con.close()
     return {
+        'id': products[0],
         "product_name": products[1],
         "stop_date": products[2],
         "count": products[3],
