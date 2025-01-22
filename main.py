@@ -65,6 +65,12 @@ def delite():
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
     return render_template('delite.html')
 
+@app.route('/api/delete/<int:id>')
+def api_de(id):
+    db_operations.delete_product(id)
+    return 'ok'
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

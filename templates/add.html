@@ -17,8 +17,9 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
           rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="./js/script.js"></script>
+    <script src="/static/js/script_mass.js"></script>
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="/static/css/backgr.css">
     <title>Добавление продуктов</title>
 
 </head>
@@ -50,7 +51,7 @@
             <div class="card my-4">
                 <div class="card-body">
                     <main class="form-signin w-100 m-auto">
-                        <form method="POST" action="/add">
+                        <form method="POST" action="/add" name="myForm" action="demo_form.asp" onsubmit="return validateForm()">
                             <div class="container">
                                 <h1 class="h3 mb-3 my-4 fw-normal">Добавление
                                     продуктов</h1>
@@ -89,7 +90,7 @@
                                             id="mass" name="mass"
                                             placeholder="Масса кг"></div>
                                     <div class="col-md overflow-auto">
-                                <select class="form-select my-4"
+                                <select id='Xen' class="form-select my-4"
                                         aria-label="Default select example"
                                         name="productCategory">
                                     <option value="0">Штуки</option>
@@ -128,5 +129,21 @@
     </div>
 </center>
 </body>
+<script>
+    function validateForm() {
+        var x = document.forms["myForm"]["fname"].value;
+        if (x == null || x == "") {
+            alert("First name must be filled out");
+            document.myForm.fname.focus();
+            return false;
+        }
 
+        var y = document.forms["myForm"]["lname"].value;
+        if (y == null || y == "") {
+            alert("Last name must be filled out");
+            document.myForm.lname.focus();
+            return false;
+        }
+    }
+</script>
 </html>

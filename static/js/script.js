@@ -31,14 +31,28 @@ table.appendChild(thead);
 const tbody = document.createElement('tbody');
 res_t.forEach(value => {
     const row = document.createElement('tr');
-	value['is_kg'] = data_types[value['is_kg']]
-
+    value['is_kg'] = data_types[value['is_kg']]
 
     headers.forEach(header => {
         const cell = document.createElement('td');
-		cell.textContent = value[header];
+        cell.textContent = value[header];
         row.appendChild(cell);
     });
+
+    // Добавляем кнопку удаления
+
+    const deleteCell = document.createElement('td');
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Удалить';
+    deleteButton.className = 'btn btn-danger'; // Добавляем класс Bootstrap для стиля
+    deleteButton.addEventListener('click', () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "/api/delete/" + row.children[5].textContent, true);
+        xhr.send(null);
+        row.remove(); // Удаляем строку из таблицы
+    });
+    deleteCell.appendChild(deleteButton);
+    row.appendChild(deleteCell); // Добавляем ячейку с кнопкой удаления в строку
 
     tbody.appendChild(row);
 });
@@ -102,11 +116,12 @@ function updateSortIndicator(th) {
 // Функция для обновления заголовков таблицы
 function updateTableHeaders() {
     const headers = [
+        "Количество",
         "Белки",
         "Жиры",
         "Углеводы",
         "Класс",
-        "Количество",
+        "id",
         "Тип данных",
         "Название продукта",
         "Дата изготовления",
@@ -131,29 +146,29 @@ updateTableHeaders();
 // Функция для фильтрации строк по сроку годности
 function filterExpiringItems() {
     const rows = Array.from(tbody.querySelectorAll('tr'));
-		if (is_filtered){
-		    document.getElementById('ZOV').textContent = "Показать просрочку"
-				rows.forEach(row => {
+    if (is_filtered) {
+        document.getElementById('ZOV').textContent = "Показать просрочку"
+        rows.forEach(row => {
             row.style.display = ''; // Показываем только близкие к истечению
-						}
-				);
-				is_filtered = false
-				return 0;
-		}
-	document.getElementById('ZOV').textContent = "Показать всё"
+        }
+        );
+        is_filtered = false
+        return 0;
+    }
+    document.getElementById('ZOV').textContent = "Показать всё"
 
     const today = new Date();
     const thresholdDate = new Date();
     thresholdDate.setDate(today.getDate() - 3); // Устанавливаем порог на 7 дней
 
     rows.forEach(row => {
-        const expiryDateCell = row.children[8].textContent.split('-'); // Предполагается, что дата истечения в 6-м столбце
-			let CellDate = new Date(expiryDateCell[0], expiryDateCell[1] - 1, expiryDateCell[2]);
+        const expiryDateCell = row.children[9].textContent.split('-'); // Предполагается, что дата истечения в 6-м столбце
+        let CellDate = new Date(expiryDateCell[0], expiryDateCell[1] - 1, expiryDateCell[2]);
         if (expiryDateCell) {
             row.style.display = CellDate <= thresholdDate ? '' : 'none'; // Показываем только близкие к истечению
         }
     });
-		is_filtered = true
+    is_filtered = true
 }
 const searchButton = document.getElementById('ZOV')
 searchButton.addEventListener('click', filterExpiringItems)
