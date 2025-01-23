@@ -75,9 +75,9 @@ def infabout():
             id = proc_img.decode_qr_from_image(file_path)
             b64 = proc_img.generate_qr_base64(id)
             d = db_operations.get_product(id)
-            return render_template('infabout.html', d=d, b64=b64)
+            return render_template('infabout.html', d=d, b64=b64, products=db_operations.get_products())
         except Exception:
-            return render_template('infabout.html', d='erorr')
+            return render_template('infabout.html', d={})
 
     return render_template('infabout.html')
 
