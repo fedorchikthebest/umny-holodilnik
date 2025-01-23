@@ -18,4 +18,3 @@ def del_DIR_img():
         return 'Удвлено'
     print('НЕТ')
     return 'НЕТ'
-del_DIR_img()

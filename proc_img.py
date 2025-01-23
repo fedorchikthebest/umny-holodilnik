@@ -44,7 +44,7 @@ def decode_qr_from_base64(base64_string):
         image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
         if image is None:
-            return "Не удалось декодировать изображение из Base64"3
+            return "Не удалось декодировать изображение из Base64"
 
         detector = cv2.QRCodeDetector()
 
