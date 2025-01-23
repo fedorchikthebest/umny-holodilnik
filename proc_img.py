@@ -3,6 +3,9 @@ import base64
 from io import BytesIO
 import cv2
 import numpy as np
+import json
+
+#from qrcode.console_scripts import error_correction
 
 
 # QRidBase64
@@ -59,3 +62,50 @@ def decode_qr_from_base64(base64_string):
         return f"Ошибка обработки: {str(e)}"
 
 
+
+
+
+
+#json QR хз нужен file name
+def creat_jsonQR_png(json_date, file_name='qr_js_img.png'):
+    try:
+        js_str = json.dumps(json_date, ensure_ascii=False)
+        qr = qrcode.QRCode(
+            version=1,
+            box_size=10,
+            border=5
+        )
+        qr.add_data(js_str)
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+        img.save(file_name)
+        print(f'✅ {file_name}')
+    except Exception as e:
+        print(f'❌ {e} {file_name}')
+
+
+def creat_qr_bs64_json(json_data):
+    try:
+        json_string = json.dumps(json_data, ensure_ascii=False)
+
+        # Создание QR-кода
+        qr = qrcode.QRCode(
+            version=1,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(json_string)
+        qr.make(fit=True)
+
+        img = qr.make_image(fill_color="black", back_color="white")
+
+        buffered = BytesIO()
+        img.save(buffered, format="PNG")
+
+        img_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
+        print(f'✅ bs64')
+        return img_base64
+
+    except Exception as e:
+        print(f"❌ {e} base64")
+        return None
