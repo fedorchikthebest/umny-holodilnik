@@ -16,10 +16,25 @@
     <script src="./js/script.js"></script>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="/static/css/backgr.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>Удаление товара</title>
 
 </head>
 
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+.montserrat {
+  font-family: "Montserrat", serif;
+  font-optical-sizing: auto;
+  font-weight: 300px;
+  font-style: normal;
+}
+    
+</style>
 <body>
     <nav class="p-3 text-bg-dark">
         <div class="container">
@@ -41,25 +56,36 @@
         </p>
     </form>
 
-    <body>
-        {% if d %}                    
-            <div class="row" style="margin: 1% 15% 1%;">
-                <div class="col-1"></div>
-                <div class="col-10">
-                    <div class="card my-4">
-                        <div class="card-body">
-                            <main class="form-signin w-100 m-auto">
-                                <div class="container"></div>
-                                            
-                                    </div>
-                            </main>
-                                </form>
-                            </main>
-                        </div>    
-                        <p>{{ d }}</p>  
-            {% else %}    
-                        <p>debil</p>
-            {% endif %}
+    <body class="montserrat">
+        {% if d %}
+        <div class="row" style="margin: 1% 15% 1%;">
+            <div class="col-1"></div>
+            <div class="col-10">
+                <div class="card my-4">
+                    <div class="card-body">
+                        <main class="form-signin w-100 m-auto">
+                            <div class="container"></div>
+                            <div class="row">
+                            <div class="col-9">
+                                    <p><strong>Название продукта:</strong> {{ d.get('product_name') }}</p>
+                                    <p><strong>Класс:</strong> {{ d.get('class') }}</p>
+                                    <p><strong>Дата изготовления:</strong> {{ d.get('start_date') }}</p>
+                                    <p><strong>Дата истечения:</strong> {{ d.get('stop_date') }}</p>
+                                    <p><strong>Количество:</strong> {{ d.get('count') }}</p>
+                                    <p><strong>Белки:</strong> {{ d.get('B') }}</p>
+                                    <p><strong>Жиры:</strong> {{ d.get('J') }}</p>
+                                    <p><strong>Углеводы:</strong> {{ d.get('U') }}</p>
+                            </div>
+                            <div class="col-2">{{ b64 }}</div></div>
+                    </div>
+                    </main>
+                    </form>
+                    </main>
+                </div>
+
+                {% else %}
+                <p>debil</p>
+                {% endif %}
     </body>
 </body>
 
