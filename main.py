@@ -4,7 +4,7 @@ from rss import gen_rss
 import os
 from werkzeug.utils import secure_filename
 import proc_img
-
+import dircr
 
 
 
@@ -90,4 +90,6 @@ def api_de(id):
 
 
 if __name__ == '__main__':
+    dircr.creat_DIR_img()
     app.run(debug=True)
+    dircr.del_DIR_img()
