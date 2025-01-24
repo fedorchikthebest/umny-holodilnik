@@ -74,12 +74,16 @@ def infabout():
             b64 = proc_img.generate_qr_base64(id)
             d = db_operations.get_product(id)
 
+<<<<<<< HEAD
             flag=True
 
 
 
 
 
+=======
+            flag=False
+>>>>>>> fbfae7caa8044fdfdabec783c0e36398b3258ece
 
             return render_template('infabout.html', d=d, b64=b64, flag=flag)
         except Exception:

@@ -83,6 +83,7 @@
                                 </div>
                                 <img src="data:image/png;base64,{{ b64 }}" alt="Изображение">
                             </div>
+                            {% if flag %}
                             <div class="row">
                                 <div class="col-6"><button style="width: 100%;" id="ij" type="button" class="btn btn-success"
                                         name="{{ d.get('id') }}">Добавить</button>
@@ -92,6 +93,13 @@
                                         name="{{ d.get('id') }}">Удалить</button>
                                 </div>
                             </div>
+                            {% else %}
+                            <div class="row"></div>
+                                <div class="col-12"><button style="width: 100%;" id="ij" type="button" class="btn btn-success"
+                                        name="{{ d.get('id') }}">Добавить</button>
+                                </div>
+                            </div>
+                            {% endif %}
                     </div>
                 </div>
             </div>
