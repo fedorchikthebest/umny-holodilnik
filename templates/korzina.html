@@ -17,9 +17,7 @@
     <style>
         .narrow-column {
             width: 50px;
-            /* Установите желаемую ширину */
             white-space: nowrap;
-            /* Запретить перенос текста */
         }
     </style>
 </head>
@@ -41,7 +39,6 @@
             <div class="flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <center>
                     <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        <li><a href="/" class="nav-link px-2 text-white">Главная</a></li>
                         <li><a href="/add" class="nav-link px-2 text-white">Добавление товара</a></li>
                         <li><a href="/korzina" class="nav-link px-2 text-white">Все продукты</a></li>
                         <li><a href="/infabout" class="nav-link px-2 text-white">Информация о товаре</a></li>
@@ -56,11 +53,11 @@
             <div class="col-10">
                 <input type="text" id="searchInput" placeholder="Поиск по названию товара" class="form-control my-3">
                 <button type="button" id="ZOV" class="form-control my-3">Показать просроченные</button>
-                    <div class="table-responsive"> <!-- Добавлен класс для адаптивности -->
+                    <div class="table-responsive"> 
                     <table class="table table-bordered border-primary">
                         <thead>
                             <tr>
-                                <!-- Добавьте заголовок для кнопки удаления -->
+
                                 <th>Удалить</th>
                             </tr>
                         </thead>
