@@ -5,7 +5,7 @@ import os
 from werkzeug.utils import secure_filename
 import proc_img
 import dircr
-
+import json
 
 
 app = Flask(__name__)
@@ -76,7 +76,7 @@ def infabout():
 
             flag=True
 
-                
+
 
 
 
