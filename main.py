@@ -70,12 +70,16 @@ def infabout():
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
 
             file.save(file_path)
-            id = proc_img.decode_qr_from_image(file_path)
-            b64 = proc_img.generate_qr_base64(id)
-            d = db_operations.get_product(id)
+            dst = proc_img.decode_qr_from_image(file_path)
 
-            flag=False
+            if dst[0] == '{':
+                flag = False
+                d = json.loads(dst)
+            else:
+                flag=True
+                d = db_operations.get_product(dst)
 
+            b64 = proc_img.generate_qr_base64(dst)
             return render_template('infabout.html', d=d, b64=b64, flag=flag)
         except Exception:
             return render_template('infabout.html', d={})
