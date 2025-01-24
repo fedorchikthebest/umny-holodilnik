@@ -58,31 +58,31 @@ def api():
 @app.route('/infabout', methods=['GET', 'POST'])
 def infabout():
     if request.method == 'POST':
-        # try:
-        UPLOAD_FOLDER = "imageQR"
-        app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
-        file = request.files["image"]
-
-        filename = secure_filename(file.filename)
-
-        file.save("PNG.png")
-        dst = proc_img.decode_qr_from_image("PNG.png")
-
-        if dst[0] == '{':
-            product = json.loads(dst)
-            pid = db_operations.add_product(product.get('product_name'), product.get('class'),
-                            product.get('stop_date'), product.get('count'), product.get('is_kg'),
-                            product.get('start_date'), product.get('B'), product.get('J'), product.get('U'))
-            return redirect(f'/infabout?pid={pid}')
-        else:
-            d = db_operations.get_product(dst)
-        b64add = proc_img.generate_qr_base64(json.dumps(d))
-        b64 = proc_img.generate_qr_base64(dst)
-        return render_template('infabout.html', d=d, b64=b64, b64add=b64add)
-        # except Exception as e:
-        #     print(e)
-        #     return render_template('infabout.html', d={})
+        try:
+            UPLOAD_FOLDER = "imageQR"
+            app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+    
+            file = request.files["image"]
+    
+            filename = secure_filename(file.filename)
+    
+            file.save("PNG.png")
+            dst = proc_img.decode_qr_from_image("PNG.png")
+    
+            if dst[0] == '{':
+                product = json.loads(dst)
+                pid = db_operations.add_product(product.get('product_name'), product.get('class'),
+                                product.get('stop_date'), product.get('count'), product.get('is_kg'),
+                                product.get('start_date'), product.get('B'), product.get('J'), product.get('U'))
+                return redirect(f'/infabout?pid={pid}')
+            else:
+                d = db_operations.get_product(dst)
+            b64add = proc_img.generate_qr_base64(json.dumps(d))
+            b64 = proc_img.generate_qr_base64(dst)
+            return render_template('infabout.html', d=d, b64=b64, b64add=b64add)
+        except Exception as e:
+            print(e)
+            return render_template('infabout.html', d={})
 
     if request.args.get('pid') is not None:
         d = db_operations.get_product(request.args.get('pid'))

@@ -55,8 +55,9 @@
     <center>
         <form enctype="multipart/form-data" method="post">
             <div class="my-4">
-                <input type="file" name="image" accept=".png">
-                <input class="btn btn-primary" type="submit" value="Отправить">
+                <center><input type="file" class="my-4" name="image" accept=".png"></center>
+                <center><input class="btn btn-primary" class='my-4' type="submit" value="Отправить"></center>
+
             </div>
         </form>
     </center>
@@ -81,23 +82,67 @@
                                     <p><strong>Жиры:</strong> {{ d.get('J') }}</p>
                                     <p><strong>Углеводы:</strong> {{ d.get('U') }}</p>
                                 </div>
-                                <img src="data:image/png;base64,{{ b64 }}" alt="Изображение">
-                                <img src="data:image/png;base64,{{ b64add }}" alt="Изображение">
+                                <div class="row my-4">
+                                    <div class="col-12 col-md-6">
+                                        <p>Qr code для удаления</p>
+                                        <button class="btn btn-info" data-bs-toggle="modal"
+                                            data-bs-target="#modalDelete">Просмотреть</button>
+                                        <img src="data:image/png;base64,{{ b64 }}" alt="Изображение"
+                                            style="width: 100%; height: 100%; display: none;" id="imgDelete">
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <p>Qr code для добавления</p>
+                                        <button class="btn btn-info" data-bs-toggle="modal"
+                                            data-bs-target="#modalAdd">Просмотреть</button>
+                                        <img src="data:image/png;base64,{{ b64add }}" alt="Изображение"
+                                            style="width: 100%; height: 100%; display: none;" id="imgAdd">
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="modalDelete" tabindex="-1"
+                                    aria-labelledby="modalDeleteLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalDeleteLabel">Qr code для удаления</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img src="data:image/png;base64,{{ b64 }}" alt="Изображение"
+                                                    style="width: 100%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="modalAdd" tabindex="-1" aria-labelledby="modalAddLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalAddLabel">Qr code для добавления</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img src="data:image/png;base64,{{ b64add }}" alt="Изображение"
+                                                    style="width: 100%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <button style="width: 100%;" name="{{ d.get('id') }}" type="button" class="btn btn-success" id="add_button">Добавить такой-же</button>                                </div>
-                                <div class="col-6">
+                            <div class="row" style="margin-top: 100px;">
+                                <div class="col-12 col-md-6 mb-4">
+                                    <button style="width: 100%;" name="{{ d.get('id') }}" type="button"
+                                        class="btn btn-success" id="add_button">Добавить такой-же</button>
+                                </div>
+                                <div class="col-12 col-md-6">
                                     <button style="width: 100%;" id="huy" type="button" class="btn btn-danger"
                                         name="{{ d.get('id') }}">Удалить</button>
                                 </div>
                             </div>
-<<<<<<< HEAD
-                            
-                            
-=======
                             <script src="/static/js/script_mass.js"></script>
->>>>>>> f018dae761af9654114174917548a21d2250de60
                     </div>
                 </div>
             </div>
@@ -108,5 +153,21 @@
         {% else %}
         {% endif %}
 
-</body>
+    </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-..."
+        crossorigin="anonymous"></script>
+    <script>
+        var modalDelete = new bootstrap.Modal(document.getElementById('modalDelete'));
+        var modalAdd = new bootstrap.Modal(document.getElementById('modalAdd'));
+
+        document.querySelectorAll('[data-bs-toggle="modal"]').forEach(function (button) {
+            button.addEventListener('click', function () {
+                var target = this.getAttribute('data-bs-target');
+                var modal = document.querySelector(target);
+                modal.show();
+            });
+        });
+    </script>
+
 </html>

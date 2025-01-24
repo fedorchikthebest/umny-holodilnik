@@ -36,11 +36,19 @@ res_t.forEach(value => {
     headers.forEach(header => {
         const cell = document.createElement('td');
         cell.textContent = value[header];
+
+        // Добавляем обработчик клика для ячейки с названием товара
+        if (header === "product_name") {
+            cell.style.cursor = 'pointer'; // Указываем, что ячейка кликабельная
+            cell.addEventListener('click', () => {
+                window.location.href = `/infabout?pid=${value.id}`; // Перенаправляем на страницу товара
+            });
+        }
+
         row.appendChild(cell);
     });
 
     // Добавляем кнопку удаления
-
     const deleteCell = document.createElement('td');
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Удалить';
