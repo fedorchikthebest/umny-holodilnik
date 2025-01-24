@@ -123,12 +123,12 @@ def api_add_buy(pid):
 
 @app.route("/analytics")
 def analytics_page():
-    return f"{db_operations.get_deleted()}{db_operations.get_products()}"
+    return render_template("analytics.html", all_products=db_operations.get_products(), deleted=db_operations.get_deleted())
 
 
 @app.route('/buys')
 def show_buys():
-    return str(db_operations.get_buys())
+    return render_template("buys.html", buys=db_operations.get_buys())
 
 
 if __name__ == '__main__':
