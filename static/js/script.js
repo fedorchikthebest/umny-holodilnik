@@ -55,7 +55,7 @@ res_t.forEach(value => {
     deleteButton.className = 'btn btn-danger'; // Добавляем класс Bootstrap для стиля
     deleteButton.addEventListener('click', () => {
         const xhr = new XMLHttpRequest();
-        xhr.open("GET", "/api/delete/" + row.children[5].textContent, true);
+        xhr.open("GET", "/api/delete/" + row.children[0].textContent, true);
         xhr.send(null);
         row.remove(); // Удаляем строку из таблицы
     });
