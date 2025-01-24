@@ -30,9 +30,7 @@ def decode_qr_from_image(image_path):
         return "Изображение не найдено или путь указан неверно"
 
     detector = cv2.QRCodeDetector()
-
     data, _, _ = detector.detectAndDecode(image)
-
     if data:
         return data
     else:

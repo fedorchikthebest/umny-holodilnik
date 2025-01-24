@@ -71,7 +71,6 @@ def infabout():
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
 
             file.save(file_path)
-            print(file_path)
             id = proc_img.decode_qr_from_image(file_path)
             b64 = proc_img.generate_qr_base64(id)
             d = db_operations.get_product(id)
@@ -87,6 +86,8 @@ def infabout():
 def api_de(id):
     db_operations.delete_product(id)
     return 'ok'
+
+
 
 
 
