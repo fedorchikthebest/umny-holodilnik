@@ -29,11 +29,11 @@ def add_product():
         J = int(request.form.get('fatsG', 0))
         U = int(request.form.get('carbsG', 0))
 
-        db_operations.add_product(name, class_name, stop_date, count, mass_id,
+        pid = db_operations.add_product(name, class_name, stop_date, count, mass_id,
                                   start_date, B, J, U)
         print(request.form['stopDate'], request.form['startDate'])
 
-        return redirect(url_for('index'))
+        return redirect(url_for('infabout', pid=pid))
 
     return render_template('add.html')
 
@@ -77,15 +77,19 @@ def infabout():
                 d = json.loads(dst)
             else:
                 flag=True
-                d = db_operations.get_product(id)
+                d = db_operations.get_product(dst)
 
 
 
-            b64 = proc_img.generate_qr_base64(id)
+            b64 = proc_img.generate_qr_base64(dst)
             return render_template('infabout.html', d=d, b64=b64, flag=flag)
         except Exception:
             return render_template('infabout.html', d={})
-
+    print(request.args)
+    if request.args.get('pid') is not None:
+        d = db_operations.get_product(request.args.get('pid'))
+        b64 = proc_img.generate_qr_base64(request.args.get('pid'))
+        return render_template('infabout.html', d=d, b64=b64, flag=True)
     return render_template('infabout.html')
 
 
