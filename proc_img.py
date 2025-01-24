@@ -4,6 +4,9 @@ from io import BytesIO
 import cv2
 import numpy as np
 import json
+from pyzbar.pyzbar import decode
+from pyzbar.pyzbar import ZBarSymbol
+import os
 
 #from qrcode.console_scripts import error_correction
 
@@ -25,12 +28,17 @@ def generate_qr_base64(id_value):
 # idPNG
 
 def decode_qr_from_image(image_path):
-    image = cv2.imread(image_path)
-    if image is None:
+    img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    
+    if img is None:
         return "Изображение не найдено или путь указан неверно"
 
-    detector = cv2.QRCodeDetector()
-    data, _, _ = detector.detectAndDecode(image)
+    blur = cv2.GaussianBlur(img, (5, 5), 0) 
+    ret, bw_im = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+
+    data = decode(bw_im, symbols=[ZBarSymbol.QRCODE])[0].data.decode('utf-8')
+    os.remove(image_path)
+
     if data:
         return data
     else:
@@ -50,6 +58,7 @@ def decode_qr_from_base64(base64_string):
         detector = cv2.QRCodeDetector()
 
         data, _, _ = detector.detectAndDecode(image)
+        
 
         if data:
             return data

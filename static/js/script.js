@@ -13,7 +13,7 @@ table.innerHTML = '';
 // Создаем заголовок таблицы
 const thead = document.createElement('thead');
 const headerRow = document.createElement('tr');
-const headers = Object.keys(res_t[0]); // Используем ключи первого объекта как заголовки
+const headers = ["id", "product_name", "class", "count", "is_kg", "start_date", "stop_date", "B", "J", "U"]
 let currentSortColumn = null;
 
 headers.forEach((headerText, index) => {
@@ -116,16 +116,16 @@ function updateSortIndicator(th) {
 // Функция для обновления заголовков таблицы
 function updateTableHeaders() {
     const headers = [
+        "id",
+        "Название",
+        "Класс",
         "Количество",
+        "Тип данных",
+        "Дата изготовления",
+        "Дата истичения",
         "Белки",
         "Жиры",
-        "Углеводы",
-        "Класс",
-        "id",
-        "Тип данных",
-        "Название продукта",
-        "Дата изготовления",
-        "Дата истечения"
+        "Углеводы"
     ];
 
     const headerRow = table.querySelector('thead tr');
@@ -162,7 +162,7 @@ function filterExpiringItems() {
     thresholdDate.setDate(today.getDate() - 3); // Устанавливаем порог на 7 дней
 
     rows.forEach(row => {
-        const expiryDateCell = row.children[9].textContent.split('-'); // Предполагается, что дата истечения в 6-м столбце
+        const expiryDateCell = row.children[6].textContent.split('-'); // Предполагается, что дата истечения в 6-м столбце
         let CellDate = new Date(expiryDateCell[0], expiryDateCell[1] - 1, expiryDateCell[2]);
         if (expiryDateCell) {
             row.style.display = CellDate <= thresholdDate ? '' : 'none'; // Показываем только близкие к истечению

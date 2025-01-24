@@ -4,7 +4,6 @@ from rss import gen_rss
 import os
 from werkzeug.utils import secure_filename
 import proc_img
-import dircr
 import json
 
 
@@ -59,35 +58,37 @@ def api():
 @app.route('/infabout', methods=['GET', 'POST'])
 def infabout():
     if request.method == 'POST':
-        try:
-            UPLOAD_FOLDER = "imageQR"
-            app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+        # try:
+        UPLOAD_FOLDER = "imageQR"
+        app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-            file = request.files["image"]
+        file = request.files["image"]
 
-            filename = secure_filename(file.filename)
+        filename = secure_filename(file.filename)
 
-            file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        file.save("PNG.png")
+        dst = proc_img.decode_qr_from_image("PNG.png")
 
-            file.save(file_path)
-            dst = proc_img.decode_qr_from_image(file_path)
+        if dst[0] == '{':
+            product = json.loads(dst)
+            pid = db_operations.add_product(product.get('product_name'), product.get('class'),
+                            product.get('stop_date'), product.get('count'), product.get('is_kg'),
+                            product.get('start_date'), product.get('B'), product.get('J'), product.get('U'))
+            return redirect(f'/infabout?pid={pid}')
+        else:
+            d = db_operations.get_product(dst)
+        b64add = proc_img.generate_qr_base64(json.dumps(d))
+        b64 = proc_img.generate_qr_base64(dst)
+        return render_template('infabout.html', d=d, b64=b64, b64add=b64add)
+        # except Exception as e:
+        #     print(e)
+        #     return render_template('infabout.html', d={})
 
-            if dst[0] == '{':
-                flag = False
-                d = json.loads(dst)
-            else:
-                flag=True
-                d = db_operations.get_product(dst)
-
-            b64 = proc_img.generate_qr_base64(dst)
-            return render_template('infabout.html', d=d, b64=b64, flag=flag)
-        except Exception:
-            return render_template('infabout.html', d={})
-    print(request.args)
     if request.args.get('pid') is not None:
         d = db_operations.get_product(request.args.get('pid'))
         b64 = proc_img.generate_qr_base64(request.args.get('pid'))
-        return render_template('infabout.html', d=d, b64=b64, flag=True)
+        b64add = proc_img.generate_qr_base64(json.dumps(d))
+        return render_template('infabout.html', d=d, b64=b64, flag=True, b64add=b64add)
     return render_template('infabout.html')
 
 
@@ -98,10 +99,15 @@ def api_de(id):
     return 'ok'
 
 
-
+@app.route('/api/add_same/<int:id>')
+def api_add_s(id):
+    product = db_operations.get_product(id)
+    print(product)
+    db_operations.add_product(product.get('product_name'), product.get('class'),
+                              product.get('stop_date'), product.get('count'), product.get('is_kg'),
+                              product.get('start_date'), product.get('B'), product.get('J'), product.get('U'))
+    return 'ok'
 
 
 if __name__ == '__main__':
-    dircr.creat_DIR_img()
     app.run(debug=True)
-    dircr.del_DIR_img()
