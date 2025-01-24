@@ -109,5 +109,27 @@ def api_add_s(id):
     return 'ok'
 
 
+@app.route('/api/delete_buy/<int:bid>')
+def api_del_buy(bid):
+    db_operations.delete_buy(bid)
+    return "ok"
+
+
+@app.route('/api/add_buy/<int:pid>')
+def api_add_buy(pid):
+    db_operations.add_buy(pid)
+    return "ok"
+
+
+@app.route("/analytics")
+def analytics_page():
+    return f"{db_operations.get_deleted()}{db_operations.get_products()}"
+
+
+@app.route('/buys')
+def show_buys():
+    return str(db_operations.get_buys())
+
+
 if __name__ == '__main__':
     app.run(debug=True)

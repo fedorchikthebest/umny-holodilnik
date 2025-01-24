@@ -1,11 +1,13 @@
 import sqlite3
 import json
+import datetime
 
 con = sqlite3.connect("holodilnik.db")
 cur = con.cursor()
 
 cur.execute("CREATE TABLE IF NOT EXISTS classes(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)")
-cur.execute("CREATE TABLE IF NOT EXISTS products(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, stop_date TEXT, count INTEGER, mass_id INTEGER, class_id INTEGER, start_date TEXT, B INTEGER, J INTEGER, U INTEGER, FOREIGN KEY (class_id)  REFERENCES classes (id))")
+cur.execute("CREATE TABLE IF NOT EXISTS products(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, stop_date TEXT, count INTEGER, mass_id INTEGER, class_id INTEGER, start_date TEXT, B INTEGER, J INTEGER, U INTEGER, is_deleted BOOL, delete_time TEXT, FOREIGN KEY (class_id)  REFERENCES classes (id))")
+cur.execute("CREATE TABLE IF NOT EXISTS buys(id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, FOREIGN KEY (product_id)  REFERENCES products (id))")
 con.commit()
 con.close()
 
@@ -14,7 +16,7 @@ def get_products() -> dict:
     con = sqlite3.connect("holodilnik.db")
     cur = con.cursor()
 
-    products = cur.execute("SELECT * FROM products")
+    products = cur.execute("SELECT * FROM products WHERE is_deleted=0")
     result = []
     for i in products.fetchall():
         class_name = cur.execute("SELECT name FROM classes WHERE id == ?", (i[5],)).fetchone()[0]
@@ -40,7 +42,7 @@ def add_product(name:str, class_name:str, stop_date:str, count:int, mass_id:int,
     if len(cur.execute("SELECT id FROM classes WHERE name = ?", (class_name,)).fetchall()) == 0:
         cur.execute("INSERT INTO classes(name) VALUES (?)", (class_name, ))
     class_id = cur.execute("SELECT id FROM classes WHERE name=?", (class_name, )).fetchall()[0][0]
-    cur.execute("INSERT INTO products(name, stop_date, count, mass_id, class_id, start_date, B, J, U) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (name, stop_date, count, mass_id, class_id, start_date, B, J, U))
+    cur.execute("INSERT INTO products(name, stop_date, count, mass_id, class_id, start_date, B, J, U, is_deleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0)", (name, stop_date, count, mass_id, class_id, start_date, B, J, U))
     con.commit()
     con.close()
     return cur.lastrowid
@@ -50,7 +52,7 @@ def delete_product(id: int):
     con = sqlite3.connect("holodilnik.db")
     cur = con.cursor()
 
-    cur.execute("DELETE FROM products WHERE id=?", (id,))
+    cur.execute(f"UPDATE products SET is_deleted=1, delete_time='{datetime.datetime.now().strftime('%Y-%m-%d\0')}' WHERE id = ?", (id,))
     con.commit()
     con.close()
 
@@ -73,3 +75,65 @@ def get_product(id: int):
         "B": products[7],
         "J": products[8],
         "U": products[9]}
+
+
+def add_buy(id_):
+    con = sqlite3.connect("holodilnik.db")
+    cur = con.cursor()
+    
+    cur.execute("INSERT INTO buys(product_id) VALUES (?)", (id_,))
+    con.commit()
+    con.close()
+
+
+def get_buy(id_):
+    con = sqlite3.connect("holodilnik.db")
+    cur = con.cursor()
+    
+    a = get_product(cur.execute("SELECT * FROM buys WHERE product_id=?", (id_, )).fetchone()[0])
+    con.commit()
+    con.close()
+    return a
+
+
+def get_buys():
+    con = sqlite3.connect("holodilnik.db")
+    cur = con.cursor()
+    
+    a = map(lambda x: get_product(x[0]), cur.execute("SELECT * FROM buys").fetchall())
+    con.commit()
+    con.close()
+    return list(a)
+
+
+def delete_buy(id_):
+    con = sqlite3.connect("holodilnik.db")
+    cur = con.cursor()
+    
+    cur.execute("DELETE FROM buys WHERE id=?", (id_,))
+    con.commit()
+    con.close()
+
+
+def get_deleted():
+    con = sqlite3.connect("holodilnik.db")
+    cur = con.cursor()
+
+    products = cur.execute("SELECT * FROM products WHERE is_deleted=1")
+    result = []
+    for i in products.fetchall():
+        class_name = cur.execute("SELECT name FROM classes WHERE id == ?", (i[5],)).fetchone()[0]
+        result.append({
+            "id": i[0],
+            "product_name": i[1],
+            "stop_date": i[2],
+            "count": i[3],
+            "is_kg": i[4],
+            "class": class_name,
+            "start_date": i[6],
+            "B": i[7],
+            "J": i[8],
+            "U": i[9],
+            "delete_date": i[11]})
+    con.close()
+    return result
