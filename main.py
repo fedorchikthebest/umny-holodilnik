@@ -71,11 +71,17 @@ def infabout():
             file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
 
             file.save(file_path)
-            print(file_path)
             id = proc_img.decode_qr_from_image(file_path)
             b64 = proc_img.generate_qr_base64(id)
             d = db_operations.get_product(id)
-            return render_template('infabout.html', d=d, b64=b64, products=db_operations.get_products())
+
+            if d[0]=="{":
+                
+
+
+
+
+            return render_template('infabout.html', d=d, b64=b64)
         except Exception:
             return render_template('infabout.html', d={})
 
@@ -87,6 +93,8 @@ def infabout():
 def api_de(id):
     db_operations.delete_product(id)
     return 'ok'
+
+
 
 
 
