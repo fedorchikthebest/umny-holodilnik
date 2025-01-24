@@ -58,7 +58,6 @@ def api():
 
 @app.route('/infabout', methods=['GET', 'POST'])
 def infabout():
-
     if request.method == 'POST':
         try:
             UPLOAD_FOLDER = "imageQR"
