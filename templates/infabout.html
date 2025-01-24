@@ -85,7 +85,7 @@
                                 <div class="row my-4">
                                     <div class="col-12 col-md-6">
                                         <p>Qr code для удаления</p>
-                                        <button class="btn btn-info" data-bs-toggle="modal"
+                                        <button style="width: 100%;" class="btn btn-info" data-bs-toggle="modal"
                                             data-bs-target="#modalDelete">Просмотреть</button>
                                         <img src="data:image/png;base64,{{ b64 }}" alt="Изображение"
                                             style="width: 100%; height: 100%; display: none;" id="imgDelete">
@@ -93,7 +93,7 @@
 
                                     <div class="col-12 col-md-6">
                                         <p>Qr code для добавления</p>
-                                        <button class="btn btn-info" data-bs-toggle="modal"
+                                        <button style="width: 100%;" class="btn btn-info" data-bs-toggle="modal"
                                             data-bs-target="#modalAdd">Просмотреть</button>
                                         <img src="data:image/png;base64,{{ b64add }}" alt="Изображение"
                                             style="width: 100%; height: 100%; display: none;" id="imgAdd">
@@ -132,7 +132,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="margin-top: 100px;">
+                            <div class="row" style="margin-top: 50px;">
                                 <div class="col-12 col-md-6 mb-4">
                                     <button style="width: 100%;" name="{{ d.get('id') }}" type="button"
                                         class="btn btn-success" id="add_button">Добавить такой-же</button>
