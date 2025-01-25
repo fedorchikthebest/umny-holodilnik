@@ -52,7 +52,7 @@ def delete_product(id: int):
     con = sqlite3.connect("holodilnik.db")
     cur = con.cursor()
 
-    cur.execute(f"UPDATE products SET is_deleted=1, delete_time='{datetime.datetime.now().strftime('%Y-%m-%d\0')}' WHERE id = ?", (id,))
+    cur.execute(f"UPDATE products SET is_deleted=1, delete_time='{datetime.datetime.now().strftime('%Y-%m-%d')}' WHERE id = ?", (id,))
     con.commit()
     con.close()
 
