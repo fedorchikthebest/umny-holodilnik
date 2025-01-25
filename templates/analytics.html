@@ -44,30 +44,29 @@
         </div>
     </div>
 </nav>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-<body>
-    <div id="allprod">
-        {% for i in all_products %}
-        <p>{{ i }}</p>
-        {% endfor %}
-    </div>
-    <div id="alldel">
-        {% for i in deleted %}
-        <p>{{ i }}</p>
-        {% endfor %}
-    </div>
+    .montserrat {
+        font-family: "Montserrat", serif;
+        font-optical-sizing: auto;
+        font-weight: 300px;
+        font-style: normal;
+    }
+</style>
 
-    <!-- Форма для выбора периода времени -->
-    <div>
-        <label for="startDate">Начальная дата:</label>
-        <input type="date" id="startDate">
-        <label for="endDate">Конечная дата:</label>
-        <input type="date" id="endDate">
-        <button id="generateReport">Составить отчет</button>
-    </div>
+<body class="montserrat">
+    <h1>Аналитика потребления продуктов</h1>
+    <label for="startDate">Начальная дата:</label>
+    <input type="date" id="startDate">
 
-    <h3>Результаты анализа:</h3>
-    <p id="report"></p>
+    <label for="endDate">Конечная дата:</label>
+    <input type="date" id="endDate">
+
+    <button id="generateReport">Составить отчет</button>
+
+    <div id="analytics"></div>
+
     <script src="static/js/analityc.js"></script>
 </body>
 
