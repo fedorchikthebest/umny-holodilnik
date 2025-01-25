@@ -8,7 +8,7 @@ const cc = new Chart(circle_chart, {
     data: {
       labels: ['Удалённые', 'Существующие'],
       datasets: [{
-        label: '# of Votes',
+        label: 'Продыкты',
         data: [0, 0],
         borderWidth: 1
       }]
