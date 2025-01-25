@@ -1,7 +1,7 @@
 const btn = document.getElementById("generateReport")
 const start_date = document.getElementById("startDate")
 const stop_date = document.getElementById("endDate")
-const circle_chart = document.getElementById("circleChart")
+let circle_chart = document.getElementById("circleChart")
 
 const cc = new Chart(circle_chart, {
     type: 'doughnut',
@@ -26,7 +26,7 @@ function to_int_time(t){
 async function create_chart(){
 	let res = await fetch('/api/get_analytics/' + to_int_time(start_date.value) + '/' + to_int_time(stop_date.value))
 	let res_t = await res.json()
-	cc.data.datasets[0] = [res_t.deleted.length, res_t.products.length]
+	cc.data.datasets[0].data = [res_t.deleted.length, res_t.products.length]
 	cc.update()
 }
 
