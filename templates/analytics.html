@@ -49,20 +49,43 @@
 </style>
 
 <body class="montserrat">
-    <h1>Аналитика потребления продуктов</h1>
-    <label for="startDate">Начальная дата:</label>
-    <input type="date" id="startDate">
+    <center>
+        <h1 class="my-4">Аналитика потребления продуктов</h1>
+    </center>
 
-    <label for="endDate">Конечная дата:</label>
-    <input type="date" id="endDate">
+    <section style="margin-left: 15%; margin-right: 15%;">
+        <div class="mb-3">
+            <label for="startDate" class="form-label">Начальная дата:</label>
+            <input type="date" id="startDate" class="form-control">
+        </div>
 
-    <button class="btn" id="generateReport">Составить отчет</button>
-    <section style="margin: 15%;">
-        <div id="analytics"></div>
-        <canvas id="circleChart"></canvas>
+        <div class="mb-3">
+            <label for="endDate" class="form-label">Конечная дата:</label>
+            <input type="date" id="endDate" class="form-control">
+        </div>
+
+        <center><button class="btn mb-4" id="generateReport">Составить отчет</button></center>
+ </section>
+
+    <center>
+        <section style="width: 50%; max-width: 1200px;">
+
+            <div id="analytics"></div>
+            <canvas id="circleChart"></canvas>
+
+        </section>
+    </center>
+    <section style="margin-left: 5%; margin-right: 5%;">
+        <div class="row">
+            <div class="col-12 col-md-6 my-4">
+                <canvas id="potreblenieChart" style="max-width: 100%;"></canvas>
+            </div>
+            <div class="col-12 col-md-6 my-4">
+                <canvas id="deleteChart" style="max-width: 100%;"></canvas>
+            </div>
+        </div>
     </section>
-	<canvas id="potreblenieChart"></canvas>
-	<canvas id="deleteChart"></canvas>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/static/js/analytics.js"></script>
 </body>
