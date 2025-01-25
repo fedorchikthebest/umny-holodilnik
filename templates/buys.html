@@ -53,23 +53,32 @@
     <div class="container my-4">
         <h2>Список покупок</h2>
         <table class="table table-bordered border-primary">
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>Название товара</th>
-                    <th>Количество</th>
-                    <th>Тип</th>
-                    <th>Дата начала</th>
-                    <th>Дата окончания</th>
-                    <th>Удалить</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Данные будут добавлены здесь с помощью buys.js -->
-            </tbody>
-        </table>
     </div>
-
+     <section>
+        <div class="row my-4" style="max-width: 100%">
+            <div class="col-1"></div>
+            <div class="col-10">
+                <input type="text" id="searchInput" placeholder="Поиск по названию товара" class="form-control my-3">
+                <button type="button" id="ZOV" class="form-control my-3">Показать просроченные</button>
+                    <div class="table-responsive"> 
+                    <table class="table table-bordered border-primary">
+                        <thead>
+                            <tr>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-active">
+                            </tr>
+                            <tr>
+                            </tr>
+                            <tr>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
     <script src="/static/js/buys.js" type="module"></script>
 </body>
 

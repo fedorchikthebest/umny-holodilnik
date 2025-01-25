@@ -7,7 +7,7 @@ cur = con.cursor()
 
 cur.execute("CREATE TABLE IF NOT EXISTS classes(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)")
 cur.execute("CREATE TABLE IF NOT EXISTS products(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, stop_date TEXT, count INTEGER, mass_id INTEGER, class_id INTEGER, start_date TEXT, B INTEGER, J INTEGER, U INTEGER, is_deleted BOOL, delete_time TEXT, FOREIGN KEY (class_id)  REFERENCES classes (id))")
-cur.execute("CREATE TABLE IF NOT EXISTS buys(id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, FOREIGN KEY (product_id)  REFERENCES products (id))")
+cur.execute("CREATE TABLE IF NOT EXISTS buys(id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, FOREIGN KEY (product_id)  REFERENCES products (id), UNIQUE (product_id))")
 con.commit()
 con.close()
 
@@ -57,15 +57,17 @@ def delete_product(id: int):
     con.close()
 
 
-def get_product(id: int):
+def get_product(id_: int, r_id=None):
     con = sqlite3.connect("holodilnik.db")
     cur = con.cursor()
 
-    products = cur.execute("SELECT * FROM products WHERE id == ?", (id,)).fetchone()
+    r_id = id_ if r_id is None else r_id
+
+    products = cur.execute("SELECT * FROM products WHERE id == ?", (id_,)).fetchone()
     class_name = cur.execute("SELECT name FROM classes WHERE id == ?", (products[5],)).fetchone()[0]
     con.close()
     return {
-        'id': products[0],
+        'id': r_id,
         "product_name": products[1],
         "stop_date": products[2],
         "count": products[3],
@@ -80,8 +82,10 @@ def get_product(id: int):
 def add_buy(id_):
     con = sqlite3.connect("holodilnik.db")
     cur = con.cursor()
-    
-    cur.execute("INSERT INTO buys(product_id) VALUES (?)", (id_,))
+    try:
+        cur.execute("INSERT INTO buys(product_id) VALUES (?)", (id_,))
+    except Exception:
+        pass
     con.commit()
     con.close()
 
@@ -89,9 +93,8 @@ def add_buy(id_):
 def get_buy(id_):
     con = sqlite3.connect("holodilnik.db")
     cur = con.cursor()
-    
+
     a = get_product(cur.execute("SELECT * FROM buys WHERE product_id=?", (id_, )).fetchone()[0])
-    con.commit()
     con.close()
     return a
 
@@ -100,8 +103,7 @@ def get_buys():
     con = sqlite3.connect("holodilnik.db")
     cur = con.cursor()
     
-    a = map(lambda x: get_product(x[0]), cur.execute("SELECT * FROM buys").fetchall())
-    con.commit()
+    a = map(lambda x: get_product(x[1], x[0]), cur.execute("SELECT * FROM buys").fetchall())
     con.close()
     return list(a)
 

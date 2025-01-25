@@ -126,6 +126,11 @@ def get_deleted():
     return jsonify(db_operations.get_deleted())
 
 
+@app.route("/api/get_buys")
+def get_buys():
+    return jsonify(db_operations.get_buys())
+
+
 @app.route("/analytics")
 def analytics_page():
     return render_template("analytics.html", all_products=db_operations.get_products(), deleted=db_operations.get_deleted())
@@ -133,7 +138,7 @@ def analytics_page():
 
 @app.route('/buys')
 def show_buys():
-    return render_template("buys.html", buys=db_operations.get_buys())
+    return render_template("buys.html")
 
 
 if __name__ == '__main__':

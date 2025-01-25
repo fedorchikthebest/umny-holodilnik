@@ -50,8 +50,9 @@ res_t.forEach(value => {
             addButton.textContent = 'Добавить';
             addButton.className = 'btn btn-success'; 
             addButton.addEventListener('click', () => {
-
-                alert(`Товар ${value.product_name} добавлен!`); 
+				const xhr = new XMLHttpRequest();
+                xhr.open("GET", "/api/add_buy/" + row.children[0].textContent, true);
+                xhr.send(null);
             });
             cell.appendChild(addButton); 
         }
