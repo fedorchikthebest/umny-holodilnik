@@ -121,6 +121,11 @@ def api_add_buy(pid):
     return "ok"
 
 
+@app.route('/api/get_deleted')
+def get_deleted():
+    return jsonify(db_operations.get_deleted())
+
+
 @app.route("/analytics")
 def analytics_page():
     return render_template("analytics.html", all_products=db_operations.get_products(), deleted=db_operations.get_deleted())
@@ -132,4 +137,4 @@ def show_buys():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
