@@ -2,13 +2,26 @@ const btn = document.getElementById("generateReport")
 const start_date = document.getElementById("startDate")
 const stop_date = document.getElementById("endDate")
 let circle_chart = document.getElementById("circleChart")
+let p_chart = document.getElementById("potreblenieChart")
+
+const pc = new Chart(p_chart, {
+    type: 'doughnut',
+    data: {
+      labels: [],
+      datasets: [{
+        label: 'Хранится',
+        data: [0, 0],
+        borderWidth: 1
+      }]
+    },
+  });
 
 const cc = new Chart(circle_chart, {
     type: 'doughnut',
     data: {
       labels: ['Удалённые', 'Существующие'],
       datasets: [{
-        label: 'Продыкты',
+        label: 'Продукты',
         data: [0, 0],
         borderWidth: 1
       }]
@@ -28,6 +41,9 @@ async function create_chart(){
 	let res_t = await res.json()
 	cc.data.datasets[0].data = [res_t.deleted.length, res_t.products.length]
 	cc.update()
+
+	let r1 = Set()
+	r1.forEach((e) => r1.add(e.name))
 }
 
 btn.addEventListener('click', () => create_chart())
