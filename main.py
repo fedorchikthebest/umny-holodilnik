@@ -55,6 +55,11 @@ def api():
     return jsonify(db_operations.get_products())
 
 
+@app.route('/api/get_analytics/<int:start_date>/<int:stop_date>')
+def send_analytics(start_date, stop_date):
+    return jsonify({"products": db_operations.get_products_stamp(start_date, stop_date), "deleted": db_operations.get_deleted_stamp(start_date, stop_date)}) 
+
+
 @app.route('/infabout', methods=['GET', 'POST'])
 def infabout():
     if request.method == 'POST':
@@ -133,7 +138,7 @@ def get_buys():
 
 @app.route("/analytics")
 def analytics_page():
-    return render_template("analytics.html", all_products=db_operations.get_products(), deleted=db_operations.get_deleted())
+    return render_template("analytics.html")
 
 
 @app.route('/buys')
@@ -142,4 +147,4 @@ def show_buys():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True)
