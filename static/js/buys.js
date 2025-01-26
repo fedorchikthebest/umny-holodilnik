@@ -44,7 +44,26 @@ res_t.forEach(value => {
             });
         }
 
-       
+       if (header === "stop_date") {
+            const expiryDateCell = value[header].split('-');
+            let expiryDate = new Date(expiryDateCell[0], expiryDateCell[1] - 1, expiryDateCell[2]);
+            const today = new Date();
+            let expiryColor;
+
+            if (expiryDate > today) {
+                expiryColor = 'green';
+            } else if (expiryDate <= today && expiryDate > today.setDate(today.getDate() - 3)) {
+                expiryColor = 'orange';
+            } else {
+                expiryColor = 'red';
+            }
+            cell.style.color = expiryColor;
+
+            const manufacturingDateCell = row.children[5];
+            if (manufacturingDateCell) {
+                manufacturingDateCell.style.color = expiryColor;
+            }
+        }
 
         if (header === "Удалить") { 
             const deleteButton = document.createElement('button');
