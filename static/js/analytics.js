@@ -35,11 +35,19 @@ const cc = new Chart(circle_chart, {
     type: 'doughnut',
     data: {
         labels: ['Удалённые', 'Существующие', 'Просроченные удалённые', "Просроченные существующие"],
+		
         datasets: [{
             label: 'Продукты',
-            data: [0, 0, 0],
+			backgroundColor: [
+					'rgba(255, 99, 132, 0.7)',
+					'rgba(75, 192, 192, 0.7)',
+					'rgba(255, 205, 86, 0.7)',
+					'rgba(54, 162, 235, 0.7)',
+				],
+            data: [0, 0, 0, 0],
             borderWidth: 1
-        }]
+  }
+        ]
     },
 });
 
