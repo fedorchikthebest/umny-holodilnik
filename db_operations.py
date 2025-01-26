@@ -30,7 +30,8 @@ def get_products() -> list:
             "start_date": i[6],
             "B": i[7],
             "J": i[8],
-            "U": i[9]})
+            "U": i[9],
+            'create_time': i[12]})
     con.close()
     return result
 
@@ -42,7 +43,7 @@ def add_product(name:str, class_name:str, stop_date:str, count:int, mass_id:int,
     if len(cur.execute("SELECT id FROM classes WHERE name = ?", (class_name,)).fetchall()) == 0:
         cur.execute("INSERT INTO classes(name) VALUES (?)", (class_name, ))
     class_id = cur.execute("SELECT id FROM classes WHERE name=?", (class_name, )).fetchall()[0][0]
-    cur.execute(f"INSERT INTO products(name, stop_date, count, mass_id, class_id, start_date, B, J, U, is_deleted, create_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, {datetime.datetime.now().timestamp()})", (name, stop_date, count, mass_id, class_id, start_date, B, J, U))
+    cur.execute(f"INSERT INTO products(name, stop_date, count, mass_id, class_id, start_date, B, J, U, is_deleted, create_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, {int(datetime.datetime.now().timestamp())})", (name, stop_date, count, mass_id, class_id, start_date, B, J, U))
     con.commit()
     con.close()
     return cur.lastrowid
@@ -52,7 +53,7 @@ def delete_product(id: int):
     con = sqlite3.connect("holodilnik.db")
     cur = con.cursor()
 
-    cur.execute(f"UPDATE products SET is_deleted=1, delete_time={datetime.datetime.now().timestamp()} WHERE id = ?", (id,))
+    cur.execute(f"UPDATE products SET is_deleted=1, delete_time={int(datetime.datetime.now().timestamp())} WHERE id = ?", (id,))
     con.commit()
     con.close()
 
@@ -136,7 +137,7 @@ def get_deleted():
             "B": i[7],
             "J": i[8],
             "U": i[9],
-            "delete_date": i[11]})
+            "delete_time": i[11]})
     con.close()
     return result
 
@@ -159,7 +160,8 @@ def get_products_stamp(start: int, stop: int):
             "start_date": i[6],
             "B": i[7],
             "J": i[8],
-            "U": i[9]})
+            "U": i[9],
+            "create_time": i[12]})
     con.close()
     return result
 
@@ -181,7 +183,8 @@ def get_deleted_stamp(start: int, stop: int):
             "start_date": i[6],
             "B": i[7],
             "J": i[8],
-            "U": i[9]})
+            "U": i[9],
+            "delete_time": i[11]})
     con.close()
     return result
 

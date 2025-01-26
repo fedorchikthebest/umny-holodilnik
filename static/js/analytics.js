@@ -14,7 +14,6 @@ const pc = new Chart(p_chart, {
         datasets: [{
             label: 'Хранится',
             data: [],
-            backgroundColor: colors[1],
             borderWidth: 1
         }]
     },
@@ -27,7 +26,6 @@ const dc = new Chart(d_chart, {
         datasets: [{
             label: 'Удалено',
             data: [],
-            backgroundColor: colors[0],
             borderWidth: 1
         }]
     },
@@ -36,11 +34,10 @@ const dc = new Chart(d_chart, {
 const cc = new Chart(circle_chart, {
     type: 'doughnut',
     data: {
-        labels: ['Удалённые', 'Существующие'],
+        labels: ['Удалённые', 'Существующие', 'Просроченные удалённые', "Просроченные существующие"],
         datasets: [{
             label: 'Продукты',
-            data: [0, 0],
-            backgroundColor: colors,
+            data: [0, 0, 0],
             borderWidth: 1
         }]
     },
@@ -55,7 +52,8 @@ function to_int_time(t) {
 async function create_chart() {
     let res = await fetch('/api/get_analytics/' + to_int_time(start_date.value) + '/' + to_int_time(stop_date.value));
     let res_t = await res.json();
-    cc.data.datasets[0].data = [res_t.deleted.length, res_t.products.length];
+	console.log(res_t.deleted[0])
+    cc.data.datasets[0].data = [res_t.deleted.filter(x => to_int_time(x.stop_date) >= x.delete_time).length, res_t.products.filter(x => to_int_time(x.stop_date) >= to_int_time(stop_date.value)).length, res_t.deleted.filter(x => to_int_time(x.stop_date) < x.delete_time).length, res_t.products.filter(x => to_int_time(x.stop_date) < to_int_time(stop_date.value)).length]
     cc.update();
 
     let r1 = new Set();
