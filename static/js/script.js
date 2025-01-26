@@ -30,44 +30,64 @@ table.appendChild(thead);
 const tbody = document.createElement('tbody');
 res_t.forEach(value => {
     const row = document.createElement('tr');
-    value['is_kg'] = data_types[value['is_kg']]
+    value['is_kg'] = data_types[value['is_kg']];
 
     headers.forEach((header, index) => {
         const cell = document.createElement('td');
         cell.textContent = value[header];
 
-       
+        if (header === "stop_date") {
+            const expiryDateCell = value[header].split('-');
+            let expiryDate = new Date(expiryDateCell[0], expiryDateCell[1] - 1, expiryDateCell[2]);
+            const today = new Date();
+            let expiryColor;
+
+            if (expiryDate > today) {
+                expiryColor = 'green';
+            } else if (expiryDate <= today && expiryDate > today.setDate(today.getDate() - 3)) {
+                expiryColor = 'orange';
+            } else {
+                expiryColor = 'red';
+            }
+            cell.style.color = expiryColor; 
+
+            const manufacturingDateCell = row.children[5];
+            if (manufacturingDateCell) {
+                manufacturingDateCell.style.color = expiryColor;
+            }
+        }
+
+
         if (header === "product_name") {
-            cell.style.cursor = 'pointer'; 
+            cell.style.cursor = 'pointer';
             cell.addEventListener('click', () => {
                 window.location.href = `/infabout?pid=${value.id}`;
             });
         }
 
-       
-        if (header === "Добавить") { 
+        if (header === "Добавить") {
             const addButton = document.createElement('button');
             addButton.textContent = 'Добавить';
-            addButton.className = 'btn btn-success'; 
+            addButton.className = 'btn btn-success';
             addButton.addEventListener('click', () => {
-				const xhr = new XMLHttpRequest();
+                const xhr = new XMLHttpRequest();
                 xhr.open("GET", "/api/add_buy/" + row.children[0].textContent, true);
                 xhr.send(null);
             });
-            cell.appendChild(addButton); 
+            cell.appendChild(addButton);
         }
 
-        if (header === "Удалить") { 
+        if (header === "Удалить") {
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Удалить';
-            deleteButton.className = 'btn btn-danger'; 
+            deleteButton.className = 'btn btn-danger';
             deleteButton.addEventListener('click', () => {
                 const xhr = new XMLHttpRequest();
                 xhr.open("GET", "/api/delete/" + row.children[0].textContent, true);
                 xhr.send(null);
-                row.remove(); 
+                row.remove();
             });
-            cell.appendChild(deleteButton); 
+            cell.appendChild(deleteButton);
         }
 
         row.appendChild(cell);
@@ -92,7 +112,7 @@ searchInput.addEventListener('input', () => {
     });
 });
 
-let sortDirection = true; 
+let sortDirection = true;
 function sortTable(columnIndex, th) {
     const rows = Array.from(tbody.querySelectorAll('tr'));
     rows.sort((a, b) => {
@@ -106,19 +126,19 @@ function sortTable(columnIndex, th) {
         }
     });
 
-   
+
     sortDirection = !sortDirection;
 
-  
+
     tbody.innerHTML = '';
     rows.forEach(row => tbody.appendChild(row));
 
-  
+
     updateSortIndicator(th);
 }
 
 function updateSortIndicator(th) {
-   
+
     if (currentSortColumn) {
         currentSortColumn.textContent = currentSortColumn.textContent.replace(' ↑', '').replace(' ↓', '');
     }
@@ -147,13 +167,13 @@ function updateTableHeaders() {
     ];
 
     const headerRow = table.querySelector('thead tr');
-    headerRow.innerHTML = ''; 
+    headerRow.innerHTML = '';
 
     headers.forEach((headerText, index) => {
         const th = document.createElement('th');
         th.textContent = headerText;
-        th.style.cursor = 'pointer'; 
-        th.addEventListener('click', () => sortTable(index, th)); 
+        th.style.cursor = 'pointer';
+        th.addEventListener('click', () => sortTable(index, th));
         headerRow.appendChild(th);
     });
 }
@@ -176,7 +196,7 @@ function filterExpiringItems() {
 
     const today = new Date();
     const thresholdDate = new Date();
-    thresholdDate.setDate(today.getDate() - 3); 
+    thresholdDate.setDate(today.getDate() - 3);
 
     rows.forEach(row => {
         const expiryDateCell = row.children[6].textContent.split('-');
