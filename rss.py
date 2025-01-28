@@ -15,7 +15,7 @@ def gen_rss() -> str:
         stop_date = datetime.date(s[0], s[1], s[2])
         if datetime.date.today() > stop_date:
             rss_ans += RSS_SHAB % ("Срок годности истёк", f"{stop_date.strftime('%a, %d %b %Y')} 00:00:00", f"Срок годности {i['product_name']} истёк")
-        elif datetime.date.today() - stop_date <= datetime.timedelta(days=3):
+        elif stop_date - datetime.date.today() <= datetime.timedelta(days=3):
             rss_ans += RSS_SHAB % ("Срок годности скоро истечёт", f"{stop_date.strftime('%a, %d %b %Y')} 00:00:00", f"Срок годности {i['product_name']} скоро истечёт")
 
 
