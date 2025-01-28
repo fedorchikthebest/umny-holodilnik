@@ -3,6 +3,7 @@ import db_operations
 from rss import gen_rss
 import os
 from werkzeug.utils import secure_filename
+from werkzeug.exceptions import InternalServerError
 import proc_img
 import json
 
@@ -144,6 +145,15 @@ def analytics_page():
 @app.route('/buys')
 def show_buys():
     return render_template("buys.html")
+
+
+@app.errorhandler(InternalServerError)
+def handle_bad_request(e):
+    try:
+        db_operations.con.close()
+    except Exception:
+        pass
+    return "error"
 
 
 if __name__ == '__main__':
