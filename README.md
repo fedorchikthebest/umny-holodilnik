@@ -9,6 +9,6 @@
   ```git clone https://github.com/fedorchikthebest/umny-holodilnik```
 2. Перейти в папку - ```cd umny-holodilnik```
 3. Скачать все требования - ```pip install -r requirements.txt```
-4. Запустить файл main.py - ```python main.py```
+4. Запустить файл main.py - ```python app.py```
 
 ## 3. Видеоролик
