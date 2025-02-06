@@ -3,7 +3,7 @@ import datetime
 import os
 
 
-RSS_START = f'<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<ttl>1</ttl>\n<channel>\n<title>Информация о продуктах</title>\n<description>Тут будет размещаться информация о состоянии товаров в холодильнике</description>\n<link>{os.getenv("HOLODILNIK_HOST")}</link>\n'
+RSS_START = f'<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<ttl>1</ttl>\n<channel>\n<title>Информация о продуктах</title>\n<description>Тут будет размещаться информация о состоянии товаров в холодильнике</description>\n'
 RSS_END = "</channel></rss>"
 RSS_SHAB = "<item><title>%s</title>\n<pubDate>%s</pubDate>\n<description>%s</description><guid>%s</guid><link>%s</link></item>"
 
