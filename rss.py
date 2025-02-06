@@ -15,9 +15,9 @@ def gen_rss() -> str:
         s = list(map(int, i["stop_date"].split("-")))
         stop_date = datetime.date(s[0], s[1], s[2])
         if datetime.date.today() > stop_date:
-            rss_ans += RSS_SHAB % ("Срок годности истёк", f"{stop_date.strftime('%a, %d %b %Y')} 00:00:00", f"Срок годности {i['product_name']} истёк", i['id'], os.getenv("HOLODILNIK_HOST") + '/infabout?pid=' + i['id'])
+            rss_ans += RSS_SHAB % ("Срок годности истёк", f"{stop_date.strftime('%a, %d %b %Y')} 00:00:00", f"Срок годности {i['product_name']} истёк", i['id'], os.getenv("HOLODILNIK_HOST") + '/infabout?pid=' + str(i['id']))
         elif stop_date - datetime.date.today() <= datetime.timedelta(days=3):
-            rss_ans += RSS_SHAB % ("Срок годности скоро истечёт", f"{stop_date.strftime('%a, %d %b %Y')} 00:00:00", f"Срок годности {i['product_name']} скоро истечёт", i['id'], os.getenv("HOLODILNIK_HOST") + '/' + i['id'])
+            rss_ans += RSS_SHAB % ("Срок годности скоро истечёт", f"{stop_date.strftime('%a, %d %b %Y')} 00:00:00", f"Срок годности {i['product_name']} скоро истечёт", i['id'], os.getenv("HOLODILNIK_HOST") + '/' + str(i['id']))
 
 
     rss_ans += RSS_END
