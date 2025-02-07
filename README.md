@@ -11,4 +11,4 @@
 3. Скачать все требования - ```pip install -r requirements.txt```
 4. Запустить файл app.py - ```python app.py```
 
-## 3. Видеоролик
+## 3. [Видеоролик](https://rutube.ru/video/4cbc2e2584a9964b11458fb9390b50c2/)
